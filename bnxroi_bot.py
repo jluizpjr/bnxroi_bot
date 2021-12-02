@@ -47,7 +47,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['socorro'])
 def send_welcome(message):
-        bot.reply_to(message, "Relaxa, você não está sozinho(a)" +
+        bot.send_message(message.chat.id, "Relaxa, você não está sozinho(a)" +
         "\nO mercado de crypto é extremamente volátil. Essas variações são normais. Se você acredita no projeto, vamos seguir juntos!"
         )
 
@@ -56,7 +56,7 @@ def send_welcome(message):
         bnx = cmc.cryptocurrency_quotes_latest(id='9891') #BNX id 9891
         bnx_usd = bnx.data['9891']['quote']['USD']['price']
         print(bnx.data)
-        bot.reply_to(message, "A cotação do *BNX* agora é = $" + str(round(bnx_usd,2)))
+        bot.send_message(message.chat.id, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)))
 
 @bot.message_handler(commands=['gold'])
 def send_welcome(message):
@@ -65,8 +65,8 @@ def send_welcome(message):
 
         print(gold.data)
         if(gold_usd < 0.004):
-            bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
-            "\nATENÇÃO: Como a cotação do gold atual o mining rate é " +
+            bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
+            "\nATENÇÃO: Com a cotação do gold atual o mining rate é " +
             str(mining_rate[round(gold_usd,4)]) +
             "\nO mining rate só é atualizado às 9am BRT"
             )   
