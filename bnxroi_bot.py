@@ -24,16 +24,31 @@ cmc = CoinMarketCapAPI('563ee76c-4d7c-496f-99bf-96cadc3995d8')
  
 mining_rate = {
     0.0040: "100%", 0.0039: "95.06%", 0.0038: "90.25%", 0.0037: "85.56%",
-    0.0036: "81.00%", 0.0035: "76.56%", 0.0034: "72.25%"
-
+    0.0036: "81.00%", 0.0035: "76.56%", 0.0034: "72.25%",
+    0.0033: "68.06%", 0.0032: "64.00%", 0.0031: "60.06%",
+    0.0030: "56.25%", 0.0029: "52.56%", 0.0028: "49.00%",
+    0.0027: "45.56%", 0.0026: "42.25%", 0.0025: "39.06%",
+    0.0024: "36.00%", 0.0023: "33.06%", 0.0022: "30.25%"
 }
+
 
 @bot.message_handler(commands=['start', 'help', 'ajuda'])
 def send_welcome(message):
-        print(bnx.data)
         bot.reply_to(message, "Bem vindo" +
         "\n   Digite /bnx para ver a cotação do BNX" +
         "\n   Digite /gold para ver a cotação do GOLD"
+        )
+
+@bot.message_handler(commands=['calculadora'])
+def send_welcome(message):
+        bot.reply_to(message, "!!EM CONSTRUÇÃO!!" +
+        "\n   Digite: /calculadora [preço de compra] [atributo principal] ...."
+        )
+
+@bot.message_handler(commands=['socorro'])
+def send_welcome(message):
+        bot.reply_to(message, "Relaxa, você não está sozinho(a)" +
+        "\nO mercado de crypto é extremamente volátil. Essas variações são normais. Se você acredita no projeto, vamos seguir juntos!"
         )
 
 @bot.message_handler(commands=['bnx'])
@@ -59,9 +74,9 @@ def send_welcome(message):
             bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)))
 
 
-@bot.message_handler(func=lambda message: True)
-def echo_all(message):
-    bot.reply_to(message, message.text)
+#@bot.message_handler(func=lambda message: True)
+#def echo_all(message):
+#    bot.reply_to(message, message.text)
 
 
 @bot.channel_post_handler(func=lambda message: True)
