@@ -73,6 +73,18 @@ def send_welcome(message):
         else:
             bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)))
 
+@bot.message_handler(commands=['goldhistory'])
+def send_welcome(message):
+        gold = cmc.cryptocurrency_quotes_latest(id='12082') #BNX id 9891
+        gold_usd = gold.data['12082']['quote']['USD']['price']
+        print(gold.data)
+        bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
+            "\nA variação nas últimas 24 horas foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_24h'],2)) + "%" +
+            "\nA variação nos últimos 7 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_7d'],2)) + "%" +
+            "\nA variação nos últimos 30 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_30d'],2)) + "%" +
+            "\nA variação nos últimos 60 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_60d'],2)) + "%" + 
+            "\nA variação nos últimos 90 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_90d'],2)) + "%"                                    
+            )
 
 #@bot.message_handler(func=lambda message: True)
 #def echo_all(message):
