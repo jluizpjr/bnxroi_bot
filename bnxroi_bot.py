@@ -34,7 +34,9 @@ mining_rate = {
     0.0018: "20.25%", 0.0017: "18.06%", 0.0016: "16.00%",
     0.0015: "14.06%", 0.0014: "12.25%", 0.0013: "10.56%",
     0.0012: "9.00%" , 0.0011: "7.56%" , 0.0010: "6.25%" ,
-    0.0009: "5.06%" , 0.0008: "4.00%" , 0.0007: "3.06%"
+    0.0009: "5.06%" , 0.0008: "4.00%" , 0.0007: "3.06%" ,
+    0.0006: "2.25%" , 0.0005: "1.56%" , 0.0004: "1.00%" ,
+    0.0003: "0.56%" , 0.0002: "0.25%" , 0.0001: "0.06%"
 }
 
 
@@ -89,7 +91,7 @@ def send_welcome(message):
 
         if(gold_usd < 0.004):
             bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
-            "\nPreço do pancakeswap!!" +
+            "\nPreço do Pancakeswap!!" +
             "\nATENÇÃO: Com a cotação do gold atual o mining rate é " +
             str(mining_rate[round(gold_usd,4)]) +
             "\nO mining rate só é atualizado às 9am BRT"
@@ -128,6 +130,22 @@ def send_welcome(message):
 #@bot.message_handler(func=lambda message: True)
 #def echo_all(message):
 #    bot.reply_to(message, message.text)
+
+@bot.message_handler(commands=['promo'])
+def send_welcome(message):
+
+        header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'}
+
+
+        promo = requests.get("https://market.binaryx.pro/getSales?page=1&page_size=1&status=selling&name=&sort=price&direction=asc&career=&value_attr=&start_value=&end_value=&pay_addr=", headers=header).json()
+        print(promo)
+        print("O preço é "+ str(promo["data"]["result"]["items"][0]["price"]))
+
+        promo_bnx =  int(promo["data"]["result"]["items"][0]["price"]) / 1000000000000000000
+
+        print("{:.4f}".format(promo_bnx))
+
+        bot.reply_to(message, "O menor preço de lv1 no market agora é " + "{:.4f}".format(promo_bnx) + "BNX")       
 
 
 @bot.channel_post_handler(func=lambda message: True)
