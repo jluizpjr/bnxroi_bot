@@ -1,4 +1,5 @@
 import telebot
+import requests
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 
@@ -28,7 +29,12 @@ mining_rate = {
     0.0033: "68.06%", 0.0032: "64.00%", 0.0031: "60.06%",
     0.0030: "56.25%", 0.0029: "52.56%", 0.0028: "49.00%",
     0.0027: "45.56%", 0.0026: "42.25%", 0.0025: "39.06%",
-    0.0024: "36.00%", 0.0023: "33.06%", 0.0022: "30.25%"
+    0.0024: "36.00%", 0.0023: "33.06%", 0.0022: "30.25%",
+    0.0021: "27.56%", 0.0020: "25.00%", 0.0019: "22.56%",
+    0.0018: "20.25%", 0.0017: "18.06%", 0.0016: "16.00%",
+    0.0015: "14.06%", 0.0014: "12.25%", 0.0013: "10.56%",
+    0.0012: "9.00%" , 0.0011: "7.56%" , 0.0010: "6.25%" ,
+    0.0009: "5.06%" , 0.0008: "4.00%" , 0.0007: "3.06%"
 }
 
 
@@ -58,7 +64,7 @@ def send_welcome(message):
         print(bnx.data)
         bot.send_message(message.chat.id, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)))
 
-@bot.message_handler(commands=['gold'])
+@bot.message_handler(commands=['gold2'])
 def send_welcome(message):
         gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
         gold_usd = gold.data['12082']['quote']['USD']['price']
@@ -66,6 +72,7 @@ def send_welcome(message):
         print(gold.data)
         if(gold_usd < 0.004):
             bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
+            "\nPreço do CoinMarketCap!!" +
             "\nATENÇÃO: Com a cotação do gold atual o mining rate é " +
             str(mining_rate[round(gold_usd,4)]) +
             "\nO mining rate só é atualizado às 9am BRT"
@@ -73,9 +80,27 @@ def send_welcome(message):
         else:
             bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)))
 
+@bot.message_handler(commands=['gold'])
+def send_welcome(message):
+
+        gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
+        print(gold)
+        gold_usd = round(float(gold["data"]["price"]),6)
+
+        if(gold_usd < 0.004):
+            bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
+            "\nPreço do pancakeswap!!" +
+            "\nATENÇÃO: Com a cotação do gold atual o mining rate é " +
+            str(mining_rate[round(gold_usd,4)]) +
+            "\nO mining rate só é atualizado às 9am BRT"
+            )   
+        else:
+            bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)))        
+
+
 @bot.message_handler(commands=['goldhistory'])
 def send_welcome(message):
-        gold = cmc.cryptocurrency_quotes_latest(id='12082') #BNX id 9891
+        gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
         gold_usd = gold.data['12082']['quote']['USD']['price']
         print(gold.data)
         bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
@@ -84,6 +109,20 @@ def send_welcome(message):
             "\nA variação nos últimos 30 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_30d'],2)) + "%" +
             "\nA variação nos últimos 60 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_60d'],2)) + "%" + 
             "\nA variação nos últimos 90 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_90d'],2)) + "%"                                    
+            )
+
+
+@bot.message_handler(commands=['bnxhistory'])
+def send_welcome(message):
+        bnx = cmc.cryptocurrency_quotes_latest(id='9891') #BNX id 9891
+        bnx_usd = bnx.data['9891']['quote']['USD']['price']
+        print(bnx.data)
+        bot.send_message(message.chat.id, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)) +
+            "\nA variação nas últimas 24 horas foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_24h'],2)) + "%" +
+            "\nA variação nos últimos 7 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_7d'],2)) + "%" +
+            "\nA variação nos últimos 30 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_30d'],2)) + "%" +
+            "\nA variação nos últimos 60 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_60d'],2)) + "%" + 
+            "\nA variação nos últimos 90 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_90d'],2)) + "%"                                    
             )
 
 #@bot.message_handler(func=lambda message: True)
