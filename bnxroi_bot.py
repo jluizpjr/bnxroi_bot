@@ -1,5 +1,6 @@
 import telebot
 import requests
+import random
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 
@@ -55,7 +56,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['socorro'])
 def send_welcome(message):
-        bot.send_message(message.chat.id, "Relaxa, você não está sozinho(a)" +
+        bot.reply_to(message, "Relaxa, você não está sozinho(a)" +
         "\nO mercado de crypto é extremamente volátil. Essas variações são normais. Se você acredita no projeto, vamos seguir juntos!"
         )
 
@@ -64,7 +65,7 @@ def send_welcome(message):
         bnx = cmc.cryptocurrency_quotes_latest(id='9891') #BNX id 9891
         bnx_usd = bnx.data['9891']['quote']['USD']['price']
         print(bnx.data)
-        bot.send_message(message.chat.id, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)))
+        bot.reply_to(message, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)))
 
 @bot.message_handler(commands=['gold2'])
 def send_welcome(message):
@@ -73,7 +74,7 @@ def send_welcome(message):
 
         print(gold.data)
         if(gold_usd < 0.004):
-            bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
+            bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
             "\nPreço do CoinMarketCap!!" +
             "\nATENÇÃO: Com a cotação do gold atual o mining rate é " +
             str(mining_rate[round(gold_usd,4)]) +
@@ -90,7 +91,7 @@ def send_welcome(message):
         gold_usd = round(float(gold["data"]["price"]),6)
 
         if(gold_usd < 0.004):
-            bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
+            bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
             "\nPreço do Pancakeswap!!" +
             "\nATENÇÃO: Com a cotação do gold atual o mining rate é " +
             str(mining_rate[round(gold_usd,4)]) +
@@ -105,7 +106,7 @@ def send_welcome(message):
         gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
         gold_usd = gold.data['12082']['quote']['USD']['price']
         print(gold.data)
-        bot.send_message(message.chat.id, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
+        bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
             "\nA variação nas últimas 24 horas foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_24h'],2)) + "%" +
             "\nA variação nos últimos 7 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_7d'],2)) + "%" +
             "\nA variação nos últimos 30 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_30d'],2)) + "%" +
@@ -119,7 +120,7 @@ def send_welcome(message):
         bnx = cmc.cryptocurrency_quotes_latest(id='9891') #BNX id 9891
         bnx_usd = bnx.data['9891']['quote']['USD']['price']
         print(bnx.data)
-        bot.send_message(message.chat.id, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)) +
+        bot.reply_to(message, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)) +
             "\nA variação nas últimas 24 horas foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_24h'],2)) + "%" +
             "\nA variação nos últimos 7 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_7d'],2)) + "%" +
             "\nA variação nos últimos 30 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_30d'],2)) + "%" +
@@ -131,21 +132,28 @@ def send_welcome(message):
 #def echo_all(message):
 #    bot.reply_to(message, message.text)
 
-@bot.message_handler(commands=['promo'])
+@bot.message_handler(commands=['market'])
 def send_welcome(message):
 
         header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'}
 
+        try:
+            promo = requests.get("https://market.binaryx.pro/getSales?page=1&page_size=1&status=selling&name=&sort=price&direction=asc&career=&value_attr=&start_value=&end_value=&pay_addr=", headers=header).json()
+        except:
+            bot.reply_to(message, "O market está fechado agora") 
+        else: 
+            promo_bnx =  int(promo["data"]["result"]["items"][0]["price"]) / 1000000000000000000
+            bot.reply_to(message, "O menor preço de lv1 no market agora é " + "{:.4f}".format(promo_bnx) + "BNX")       
 
-        promo = requests.get("https://market.binaryx.pro/getSales?page=1&page_size=1&status=selling&name=&sort=price&direction=asc&career=&value_attr=&start_value=&end_value=&pay_addr=", headers=header).json()
-        print(promo)
-        print("O preço é "+ str(promo["data"]["result"]["items"][0]["price"]))
 
-        promo_bnx =  int(promo["data"]["result"]["items"][0]["price"]) / 1000000000000000000
 
-        print("{:.4f}".format(promo_bnx))
+@bot.message_handler(commands=['boladecristal'])
+def send_welcome(message):
 
-        bot.reply_to(message, "O menor preço de lv1 no market agora é " + "{:.4f}".format(promo_bnx) + "BNX")       
+        gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
+        gold_usd = round(float(gold["data"]["price"]),6) 
+        bot.reply_to(message, "Consultando os astros..... consultando os exús.... " +
+            "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(0,10)))    
 
 
 @bot.channel_post_handler(func=lambda message: True)
