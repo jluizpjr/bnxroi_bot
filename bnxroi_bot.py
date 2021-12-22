@@ -1,9 +1,12 @@
 import telebot
 import requests
 import random
+import os
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 
+bot = telebot.TeleBot(os.getenv('telebot_key'))
+cmc = CoinMarketCapAPI(os.environ.get('cmc_key'))
 
 # AdvancedCustomFilter is for list, string filter values
 class MainFilter(telebot.custom_filters.AdvancedCustomFilter):
@@ -20,10 +23,6 @@ class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
         return bot.get_chat_member(message.chat.id,message.from_user.id).status in ['administrator','creator']
 
 
-
-bot = telebot.TeleBot("2106071420:AAHGbrl8rUMAf9J0IYwnyTGoIRsPTmqeAtU")
-cmc = CoinMarketCapAPI('563ee76c-4d7c-496f-99bf-96cadc3995d8')
- 
 mining_rate = {
     0.0040: "100%", 0.0039: "95.06%", 0.0038: "90.25%", 0.0037: "85.56%",
     0.0036: "81.00%", 0.0035: "76.56%", 0.0034: "72.25%",
