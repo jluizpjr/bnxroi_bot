@@ -25,7 +25,6 @@ class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
     def check(message: telebot.types.Message):
         return bot.get_chat_member(message.chat.id,message.from_user.id).status in ['administrator','creator']
 
-
 mining_rate = {
     0.0040: "100%", 0.0039: "95.06%", 0.0038: "90.25%", 0.0037: "85.56%",
     0.0036: "81.00%", 0.0035: "76.56%", 0.0034: "72.25%",
