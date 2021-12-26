@@ -9,7 +9,6 @@ print(os.getenv('telebot_key'))
 print(os.environ.get('cmc_key'))
 
 bot = telebot.TeleBot(os.getenv('telebot_key'))
-
 cmc = CoinMarketCapAPI(os.environ.get('cmc_key'))
 
 # AdvancedCustomFilter is for list, string filter values
