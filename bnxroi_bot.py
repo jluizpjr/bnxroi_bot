@@ -61,8 +61,6 @@ def send_welcome(message):
         bot.send_photo(message.chat.id, open('images/crystaltable.jpg', 'rb')
         )
 
-
-
 @bot.message_handler(commands=['discord'])
 def send_welcome(message):
         bot.reply_to(message, "Link para o discord oficial:" +
