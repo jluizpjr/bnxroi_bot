@@ -11,22 +11,7 @@ print(os.environ.get('cmc_key'))
 bot = telebot.TeleBot(os.getenv('telebot_key'))
 cmc = CoinMarketCapAPI(os.environ.get('cmc_key'))
 
-# AdvancedCustomFilter is for list, string filter values
-class MainFilter(telebot.custom_filters.AdvancedCustomFilter):
-    key='text'
-    @staticmethod
-    def check(message, text):
-        return message.text in text
-
-# SimpleCustomFilter is for boolean values, such as is_admin=True
-class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
-    key='is_admin'
-    @staticmethod
-    def check(message: telebot.types.Message):
-        return bot.get_chat_member(message.chat.id,message.from_user.id).status in ['administrator','creator']
-
-
-mining_rate = {
+gold_mining_rate = {
     0.0040: "100%", 0.0039: "95.06%", 0.0038: "90.25%", 0.0037: "85.56%",
     0.0036: "81.00%", 0.0035: "76.56%", 0.0034: "72.25%",
     0.0033: "68.06%", 0.0032: "64.00%", 0.0031: "60.06%",
@@ -42,6 +27,13 @@ mining_rate = {
     0.0003: "0.56%" , 0.0002: "0.25%" , 0.0001: "0.06%"
 }
 
+crystal_mining_rate = {
+    0.30:  "0.10%", 0.31:  "3.54%", 0.32:  "7.08%", 0.33: "10.64%",
+    0.34: "14.21%", 0.35: "17.82%", 0.36: "21.46%", 0.37: "25.15%",
+    0.38: "28.89%", 0.39: "32.71%", 0.40: "36.60%", 0.41: "40.60%",
+    0.42: "44.72%", 0.43: "49.00%", 0.44: "53.47%", 0.45: "58.19%",
+    0.46: "63.25%", 0.47: "68.79%", 0.48: "75.11%", 0.49: "82.93%", 0.50: "100%"
+}
 
 @bot.message_handler(commands=['start', 'help', 'ajuda'])
 def send_welcome(message):
@@ -82,15 +74,18 @@ def send_welcome(message):
 
         print(gold.data)
         if(gold_usd < 0.004):
-            bot.reply_to(message, "A cotação do Gold agora é = *$" + str(round(gold_usd,6)) + "*" +
+            bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do CoinMarketCap!!" +
-            "\nATENÇÃO: Com a cotação do gold atual o mining ratio é " +
-            str(mining_rate[round(gold_usd,4)]) +
-            "\nO mining rate só é atualizado às 9am BRT"
-            ,parse_mode = 'Markdown')   
+            "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *" +
+            str(gold_mining_rate[round(gold_usd,4)]) + "*" +
+            "\nO mining ratio só é atualizado às 9am BRT"
+            ,parse_mode = 'Markdown')    
         else:
-            bot.reply_to(message, "A cotação do Gold agora é = *${:,.4f}".format(gold_usd) + "*"
-            ,parse_mode = 'Markdown')
+            bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
+            "\nPreço do CoinMarketCap!!" +
+            "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *100%*" +
+            "\nO mining ratio só é atualizado às 9am BRT"
+            ,parse_mode = 'Markdown')         
 
 @bot.message_handler(commands=['gold'])
 def send_welcome(message):
@@ -100,14 +95,17 @@ def send_welcome(message):
         gold_usd = round(float(gold["data"]["price"]),6)
 
         if(gold_usd < 0.004):
-            bot.reply_to(message, "A cotação do Gold agora é = *$" + str(round(gold_usd,6)) + "*" +
+            bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
-            "\nATENÇÃO: Com a cotação do gold atual o mining rate é " +
-            str(mining_rate[round(gold_usd,4)]) +
-            "\nO mining rate só é atualizado às 9am BRT"
+            "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *" +
+            str(gold_mining_rate[round(gold_usd,4)]) + "*" +
+            "\nO mining ratio só é atualizado às 9am BRT"
             ,parse_mode = 'Markdown')    
         else:
-            bot.reply_to(message, "A cotação do Gold agora é = *${:,.4f}".format(gold_usd) + "*"
+            bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
+            "\nPreço do Pancakeswap!!" +
+            "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *100%*" +
+            "\nO mining ratio só é atualizado às 9am BRT"
             ,parse_mode = 'Markdown')         
 
 
@@ -118,10 +116,19 @@ def send_welcome(message):
         print(crystal)
         crystal_usd = round(float(crystal["data"]["price"]),6)
 
-        bot.reply_to(message, "A cotação do Crystal agora é = *$" + str(round(crystal_usd,4)) + "*" +
-        "\nPreço do Pancakeswap!!" 
-        ,parse_mode = 'Markdown')    
-
+        if(crystal_usd < 0.50):
+            bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
+            "\nPreço do Pancakeswap!!" +
+            "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *" +
+            str(crystal_mining_rate[round(crystal_usd,2)]) + "*" +
+            "\nO mining ratio só é atualizado às 9am BRT"            
+            ,parse_mode = 'Markdown')
+        else:
+            bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
+            "\nPreço do Pancakeswap!!" +
+            "\nATENÇÃO: Com a cotação atual do cristal o mining ratio é *100%*" +
+            "\nO mining ratio só é atualizado às 9am BRT"    
+            ,parse_mode = 'Markdown')
 
 @bot.message_handler(commands=['goldhistory'])
 def send_welcome(message):
@@ -136,7 +143,6 @@ def send_welcome(message):
             "\nA variação nos últimos 90 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_90d'],2)) + "%"                                    
             )
 
-
 @bot.message_handler(commands=['bnxhistory'])
 def send_welcome(message):
         bnx = cmc.cryptocurrency_quotes_latest(id='9891') #BNX id 9891
@@ -149,10 +155,6 @@ def send_welcome(message):
             "\nA variação nos últimos 60 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_60d'],2)) + "%" + 
             "\nA variação nos últimos 90 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_90d'],2)) + "%"                                    
             )
-
-#@bot.message_handler(func=lambda message: True)
-#def echo_all(message):
-#    bot.reply_to(message, message.text)
 
 @bot.message_handler(commands=['market'])
 def send_welcome(message):
@@ -168,23 +170,17 @@ def send_welcome(message):
             bot.reply_to(message, "O menor preço de lv1 no market agora é *" + "{:.4f}".format(promo_bnx) + "* BNX"
             ,parse_mode = 'Markdown')        
 
-
-
 @bot.message_handler(commands=['boladecristal'])
 def send_welcome(message):
 
         gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
         gold_usd = round(float(gold["data"]["price"]),6) 
         bot.reply_to(message, "Consultando os astros..... consultando os exús.... " +
-            "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(0,10)))    
-
+            "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(1,10)))    
 
 @bot.channel_post_handler(func=lambda message: True)
 def echo_all(message):
     bot.reply_to(message, message.text)
-
-bot.add_custom_filter(MainFilter())
-bot.add_custom_filter(IsAdmin())
 
 bot.infinity_polling()
 
