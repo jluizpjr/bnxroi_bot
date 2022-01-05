@@ -65,7 +65,45 @@ def send_welcome(message):
         bnx_usd = bnx.data['9891']['quote']['USD']['price']
         print(bnx.data)
         bot.reply_to(message, "A cotação do BNX agora é = *${:,.4f}".format(bnx_usd) + "*"
-        ,parse_mode = 'Markdown')
+        ,parse_mode = 'Markdown'
+        )
+
+@bot.message_handler(commands=['coins'])
+def send_welcome(message):
+
+        btc = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c").json()
+        btc_usd = round(float(btc["data"]["price"]),6)
+
+        bnb = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c").json()
+        bnb_usd = round(float(bnb["data"]["price"]),6)
+
+        bnx = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97").json()
+        bnx_usd = round(float(bnx["data"]["price"]),6)
+
+        gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
+        gold_usd = round(float(gold["data"]["price"]),6)
+ 
+        crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
+        crystal_usd = round(float(crystal["data"]["price"]),6)
+
+        if(gold_usd < 0.004):
+            gr = str(gold_mining_rate[round(gold_usd,4)])
+        else:
+            gr = "100%"
+
+        if(crystal_usd < 0.50):
+            cr = str(crystal_mining_rate[round(crystal_usd,2)])
+        else:
+            cr = "100%"
+
+        bot.reply_to(message, "A cotação das principais moedas é:" +
+        "\nBTC     \t*${:,.2f}".format(btc_usd) + "*" +
+        "\nBNB     \t*${:,.2f}".format(bnb_usd) + "*" +
+        "\nBNX     \t*${:,.2f}".format(bnx_usd) + "*" +
+        "\nGold    \t*${:,.6f}".format(gold_usd) + "* Ratio *" + gr + "*" +
+        "\nCrystal \t*${:,.6f}".format(crystal_usd) + "* Ratio *" + cr + "*" 
+        ,parse_mode = 'Markdown'
+        )    
 
 @bot.message_handler(commands=['gold2'])
 def send_welcome(message):
@@ -79,13 +117,15 @@ def send_welcome(message):
             "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *" +
             str(gold_mining_rate[round(gold_usd,4)]) + "*" +
             "\nO mining ratio só é atualizado às 9am BRT"
-            ,parse_mode = 'Markdown')    
+            ,parse_mode = 'Markdown'
+            )    
         else:
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do CoinMarketCap!!" +
             "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *100%*" +
             "\nO mining ratio só é atualizado às 9am BRT"
-            ,parse_mode = 'Markdown')         
+            ,parse_mode = 'Markdown'
+            )         
 
 @bot.message_handler(commands=['gold'])
 def send_welcome(message):
@@ -100,13 +140,15 @@ def send_welcome(message):
             "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *" +
             str(gold_mining_rate[round(gold_usd,4)]) + "*" +
             "\nO mining ratio só é atualizado às 9am BRT"
-            ,parse_mode = 'Markdown')    
+            ,parse_mode = 'Markdown'
+            )    
         else:
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
             "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *100%*" +
             "\nO mining ratio só é atualizado às 9am BRT"
-            ,parse_mode = 'Markdown')         
+            ,parse_mode = 'Markdown'
+            )         
 
 
 @bot.message_handler(commands=['crystal'])
@@ -122,13 +164,15 @@ def send_welcome(message):
             "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *" +
             str(crystal_mining_rate[round(crystal_usd,2)]) + "*" +
             "\nO mining ratio só é atualizado às 9am BRT"            
-            ,parse_mode = 'Markdown')
+            ,parse_mode = 'Markdown'
+            )
         else:
             bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
             "\nATENÇÃO: Com a cotação atual do cristal o mining ratio é *100%*" +
             "\nO mining ratio só é atualizado às 9am BRT"    
-            ,parse_mode = 'Markdown')
+            ,parse_mode = 'Markdown'
+            )
 
 @bot.message_handler(commands=['goldhistory'])
 def send_welcome(message):
