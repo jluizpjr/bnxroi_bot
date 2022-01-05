@@ -255,7 +255,7 @@ def admin_rep(message):
 
 @bot.message_handler(is_admin=True, commands=['iniciarsorteio']) # Check if user is admin
 def admin_rep(message):
-    bot.send_message(message.chat.id, draw.openDraw("1 BNX", 10))
+    bot.send_message(message.chat.id, draw.openDraw("Sorteio", 30))
 
 @bot.message_handler(is_admin=True, commands=['listarparticipantes']) # Check if user is admin
 def admin_rep(message):
@@ -274,9 +274,14 @@ def admin_rep(message):
 
 @bot.message_handler(commands=['ticket'])
 def send_welcome(message):
+    if(message.from_user.username != None):
         bot.reply_to(message, draw.newTicket(message.from_user.username))
+    else:
+        bot.reply_to(message, draw.newTicket(message.from_user.first_name))
 
-
+@bot.message_handler(commands=['tempo'])
+def send_welcome(message):
+        bot.reply_to(message, draw.checkTime())
 
 
 

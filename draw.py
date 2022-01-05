@@ -25,7 +25,7 @@ def openDraw(prize, minutes):
         draw_dict['users'] = []
         json.dump(draw_dict, f)
         f.close()
-        return "Sorteio aberto"
+        return "Sorteio aberto \nDigite /ticket para participar"
 
 # closeDraw() - End current Draw
 # args: none
@@ -42,6 +42,8 @@ def closeDraw():
 # args: str user
 # return: str confirmation/error
 def newTicket(user):
+    if(user == None ):
+        return "Usuário não identificado"
     print("newTicket")    
     try:
         f = open("draw.json", "r")
@@ -94,7 +96,9 @@ def draw():
     try:
         with open("draw.json", "r") as f:
             draw_dict = json.load(f)
-            winner = random.randrange(0,len(draw_dict)-1)
+            if(len(draw_dict["users"]) < 2):
+                return "O sorteio precisa ter no mínimo 2 participantes"
+            winner = random.randrange(0,len(draw_dict["users"])-1)
             f.close()
             return "O vencedor é " + draw_dict["users"][winner]
     except Exception as e:
