@@ -2,6 +2,7 @@ import telebot
 import requests
 import random
 import os
+import draw
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 
@@ -34,6 +35,15 @@ crystal_mining_rate = {
     0.42: "44.72%", 0.43: "49.00%", 0.44: "53.47%", 0.45: "58.19%",
     0.46: "63.25%", 0.47: "68.79%", 0.48: "75.11%", 0.49: "82.93%", 0.50: "100%"
 }
+
+
+# SimpleCustomFilter is for boolean values, such as is_admin=True
+class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
+    key='is_admin'
+    @staticmethod
+    def check(message: telebot.types.Message):
+        return bot.get_chat_member(message.chat.id,message.from_user.id).status in ['administrator','creator']
+
 
 @bot.message_handler(commands=['start', 'help', 'ajuda'])
 def send_welcome(message):
@@ -141,7 +151,7 @@ def send_welcome(message):
             str(gold_mining_rate[round(gold_usd,4)]) + "*" +
             "\nO mining ratio só é atualizado às 9am BRT"
             ,parse_mode = 'Markdown'
-            )    
+        )    
         else:
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
@@ -222,9 +232,64 @@ def send_welcome(message):
         bot.reply_to(message, "Consultando os astros..... consultando os exús.... " +
             "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(1,10)))    
 
+
+
+#####################################################################################
+# Draw Section
+#
+#####################################################################################
+
+################ GENERAL COMMANDS ##################
+
+@bot.message_handler(is_admin=True, commands=['ajudasorteio']) # Check if user is admin
+def admin_rep(message):
+        bot.reply_to(message, "Bem vindo" +
+        "\n   /iniciarsorteio Iniciar um sorteio *(ADM)*" +
+        "\n   /ticket Cadastrar no sorteio" +
+        "\n   /listarparticipantes Ver participantes *(ADM)*" +
+        "\n   /sortear Sortear *(ADM)*" + 
+        "\n   /finalizarsorteio Encerrar *(ADM)*"                         
+        ,parse_mode = 'Markdown')   
+
+
+
+@bot.message_handler(is_admin=True, commands=['iniciarsorteio']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, draw.openDraw("1 BNX", 10))
+
+@bot.message_handler(is_admin=True, commands=['listarparticipantes']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, draw.listParticipants())
+
+@bot.message_handler(is_admin=True, commands=['sortear']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, draw.draw())
+
+@bot.message_handler(is_admin=True, commands=['finalizarsorteio']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, draw.closeDraw())
+
+
+################ GENERAL COMMANDS ##################
+
+@bot.message_handler(commands=['ticket'])
+def send_welcome(message):
+        bot.reply_to(message, draw.newTicket(message.from_user.username))
+
+
+
+
+
+#####################################################################################
+# Filter Section
+#
+#####################################################################################
+
 @bot.channel_post_handler(func=lambda message: True)
 def echo_all(message):
     bot.reply_to(message, message.text)
+
+bot.add_custom_filter(IsAdmin())
 
 bot.infinity_polling()
 

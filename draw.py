@@ -13,6 +13,7 @@ draw_dict = {}
 # args: str prize, str minutes
 # return: str confirmation/error
 def openDraw(prize, minutes):
+    print("openDraw")
     try:
         f = open("draw.json", "x")
     except:
@@ -41,6 +42,7 @@ def closeDraw():
 # args: str user
 # return: str confirmation/error
 def newTicket(user):
+    print("newTicket")    
     try:
         f = open("draw.json", "r")
         draw_dict = json.load(f)
@@ -116,6 +118,8 @@ def checkTime():
         return "Não existe sorteio em andamento" 
 
 
+#standalone tests
+#
 def main():
     print(openDraw("3 BNX", 10))
     print(checkTime())    
