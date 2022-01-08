@@ -66,7 +66,7 @@ def send_welcome(message):
 @bot.message_handler(commands=['discord'])
 def send_welcome(message):
         bot.reply_to(message, "Link para o discord oficial:" +
-        "\nhttps://discord.gg/bWRr2D43"
+        "\nhttps://discord.gg/bQ8R4WUxZN"
         )
 
 @bot.message_handler(commands=['bnx'])
