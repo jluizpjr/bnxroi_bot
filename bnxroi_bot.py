@@ -67,7 +67,7 @@ def send_welcome(message):
 @bot.message_handler(commands=['discord'])
 def send_welcome(message):
         bot.reply_to(message, "Link para o discord oficial:" +
-        "\nhttps://discord.gg/bWRr2D43"
+        "\nhttps://discord.gg/bQ8R4WUxZN"
         )
 
 @bot.message_handler(commands=['bnx'])
@@ -77,6 +77,33 @@ def send_welcome(message):
         bot.reply_to(message, "A cotação do BNX agora é = *${:,.4f}".format(bnx_usd) + "*"
         ,parse_mode = 'Markdown'
         )
+
+
+
+@bot.message_handler(commands=['dgindex'])
+def send_welcome(message):
+
+        bnx = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97").json()
+        bnx_usd = round(float(bnx["data"]["price"]),6)
+
+        gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
+        gold_usd = round(float(gold["data"]["price"]),6)
+ 
+        crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
+        crystal_usd = round(float(crystal["data"]["price"]),6)
+
+        
+        crystal_lv1 = ((125*crystal_usd)/bnx_usd)/1.12
+        crystal_lv2 = ((229*crystal_usd)/bnx_usd)/2.3
+
+        bot.reply_to(message, "Índice de lucratividade das DGs (sem considerar sorte):" +
+        "\nCristal Lv1, retorno: 1.12BNX:     \t*{:,.2f}".format(crystal_lv1) + "*" +
+        "\nCristal Lv2, retorno: 2.30BNX:     \t*{:,.2f}".format(crystal_lv2) + "*" +
+        "\n\n*Índice menor que 1 significa que está bom para fazer DG!!*"
+        ,parse_mode = 'Markdown'
+        )    
+
+
 
 @bot.message_handler(commands=['coins'])
 def send_welcome(message):
@@ -120,7 +147,6 @@ def send_welcome(message):
         gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
         gold_usd = gold.data['12082']['quote']['USD']['price']
 
-        print(gold.data)
         if(gold_usd < 0.004):
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do CoinMarketCap!!" +
@@ -141,7 +167,6 @@ def send_welcome(message):
 def send_welcome(message):
 
         gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
-        print(gold)
         gold_usd = round(float(gold["data"]["price"]),6)
 
         if(gold_usd < 0.004):
@@ -165,7 +190,6 @@ def send_welcome(message):
 def send_welcome(message):
 
         crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
-        print(crystal)
         crystal_usd = round(float(crystal["data"]["price"]),6)
 
         if(crystal_usd < 0.50):
@@ -188,7 +212,6 @@ def send_welcome(message):
 def send_welcome(message):
         gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
         gold_usd = gold.data['12082']['quote']['USD']['price']
-        print(gold.data)
         bot.reply_to(message, "A cotação do Gold agora é = $" + str(round(gold_usd,6)) +
             "\nA variação nas últimas 24 horas foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_24h'],2)) + "%" +
             "\nA variação nos últimos 7 dias foi de " + str(round(gold.data['12082']['quote']['USD']['percent_change_7d'],2)) + "%" +
@@ -201,7 +224,6 @@ def send_welcome(message):
 def send_welcome(message):
         bnx = cmc.cryptocurrency_quotes_latest(id='9891') #BNX id 9891
         bnx_usd = bnx.data['9891']['quote']['USD']['price']
-        print(bnx.data)
         bot.reply_to(message, "A cotação do BNX agora é = $" + str(round(bnx_usd,2)) +
             "\nA variação nas últimas 24 horas foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_24h'],2)) + "%" +
             "\nA variação nos últimos 7 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_7d'],2)) + "%" +
