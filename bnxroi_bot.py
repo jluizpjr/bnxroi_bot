@@ -127,7 +127,9 @@ def send_welcome(message):
         else:
             gr = "100%"
 
-        if(crystal_usd < 0.50):
+        if(crystal_usd < 0.30):
+            cr = "0%"
+        elif(crystal_usd < 0.50):
             cr = str(crystal_mining_rate[round(crystal_usd,2)])
         else:
             cr = "100%"
