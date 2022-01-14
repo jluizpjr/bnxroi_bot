@@ -197,7 +197,7 @@ def send_welcome(message):
         if(crystal_usd < 0.30):
             bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
-            "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *0%" +
+            "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *0%*" +
             "\nO mining ratio só é atualizado às 9am BRT"            
             ,parse_mode = 'Markdown'
             )
