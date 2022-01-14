@@ -3,6 +3,7 @@ import requests
 import random
 import os
 import draw
+from utils import truncate
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 
@@ -123,14 +124,19 @@ def send_welcome(message):
         crystal_usd = round(float(crystal["data"]["price"]),6)
 
         if(gold_usd < 0.004):
-            gr = str(gold_mining_rate[round(gold_usd,4)])
+            gr = str(gold_mining_rate[truncate(gold_usd,4)])
         else:
             gr = "100%"
 
+<<<<<<< HEAD
         if(crystal_usd < 0.30):
             cr = "0%"
         elif(crystal_usd < 0.50):
             cr = str(crystal_mining_rate[round(crystal_usd,2)])
+=======
+        if(crystal_usd < 0.50):
+            cr = str(crystal_mining_rate[truncate(crystal_usd,2)])
+>>>>>>> 7e6c68be8736eff1a5cb82e52854d53af15ee0d6
         else:
             cr = "100%"
 
@@ -152,7 +158,7 @@ def send_welcome(message):
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do CoinMarketCap!!" +
             "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *" +
-            str(gold_mining_rate[round(gold_usd,4)]) + "*" +
+            str(gold_mining_rate[truncate(gold_usd,4)]) + "*" +
             "\nO mining ratio só é atualizado às 9am BRT"
             ,parse_mode = 'Markdown'
             )    
@@ -174,7 +180,7 @@ def send_welcome(message):
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
             "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *" +
-            str(gold_mining_rate[round(gold_usd,4)]) + "*" +
+            str(gold_mining_rate[truncate(gold_usd,4)]) + "*" +
             "\nO mining ratio só é atualizado às 9am BRT"
             ,parse_mode = 'Markdown'
         )    
@@ -197,7 +203,7 @@ def send_welcome(message):
             bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
             "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *" +
-            str(crystal_mining_rate[round(crystal_usd,2)]) + "*" +
+            str(crystal_mining_rate[truncate(crystal_usd,2)]) + "*" +
             "\nO mining ratio só é atualizado às 9am BRT"            
             ,parse_mode = 'Markdown'
             )
