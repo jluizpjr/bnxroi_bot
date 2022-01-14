@@ -128,15 +128,10 @@ def send_welcome(message):
         else:
             gr = "100%"
 
-<<<<<<< HEAD
         if(crystal_usd < 0.30):
             cr = "0%"
         elif(crystal_usd < 0.50):
             cr = str(crystal_mining_rate[round(crystal_usd,2)])
-=======
-        if(crystal_usd < 0.50):
-            cr = str(crystal_mining_rate[truncate(crystal_usd,2)])
->>>>>>> 7e6c68be8736eff1a5cb82e52854d53af15ee0d6
         else:
             cr = "100%"
 
@@ -199,7 +194,14 @@ def send_welcome(message):
         crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
         crystal_usd = round(float(crystal["data"]["price"]),6)
 
-        if(crystal_usd < 0.50):
+        if(crystal_usd < 0.30):
+            bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
+            "\nPreço do Pancakeswap!!" +
+            "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *0%" +
+            "\nO mining ratio só é atualizado às 9am BRT"            
+            ,parse_mode = 'Markdown'
+            )
+        elif(crystal_usd < 0.50):
             bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
             "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *" +
