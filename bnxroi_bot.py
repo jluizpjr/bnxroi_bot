@@ -78,8 +78,6 @@ def send_welcome(message):
         ,parse_mode = 'Markdown'
         )
 
-
-
 @bot.message_handler(commands=['dgindex'])
 def send_welcome(message):
 
@@ -103,7 +101,6 @@ def send_welcome(message):
         ,parse_mode = 'Markdown'
         )    
 
-
 @bot.message_handler(commands=['dg'])
 def send_welcome(message):
 
@@ -126,9 +123,6 @@ def send_welcome(message):
         "\nCristal Lv3: custo: *{:,.2f}*".format(331*crystal_usd) +" USD - retorno (3 BNX): *{:,.2f}* USD".format(bnx_usd*3*1.5) 
         ,parse_mode = 'Markdown'
         )    
-
-
-
 
 @bot.message_handler(commands=['coins'])
 def send_welcome(message):
@@ -212,7 +206,6 @@ def send_welcome(message):
             ,parse_mode = 'Markdown'
             )         
 
-
 @bot.message_handler(commands=['crystal'])
 def send_welcome(message):
 
@@ -288,8 +281,6 @@ def send_welcome(message):
         bot.reply_to(message, "Consultando os astros..... consultando os exús.... " +
             "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(1,10)))    
 
-
-
 #####################################################################################
 # Draw Section
 #
@@ -306,8 +297,6 @@ def admin_rep(message):
         "\n   /sortear Sortear *(ADM)*" + 
         "\n   /finalizarsorteio Encerrar *(ADM)*"                         
         ,parse_mode = 'Markdown')   
-
-
 
 @bot.message_handler(is_admin=True, commands=['iniciarsorteio']) # Check if user is admin
 def admin_rep(message):
