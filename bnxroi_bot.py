@@ -104,6 +104,31 @@ def send_welcome(message):
         )    
 
 
+@bot.message_handler(commands=['dg'])
+def send_welcome(message):
+
+        bnx = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97").json()
+        bnx_usd = round(float(bnx["data"]["price"]),6)
+
+        gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
+        gold_usd = round(float(gold["data"]["price"]),6)
+ 
+        crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
+        crystal_usd = round(float(crystal["data"]["price"]),6)
+
+        bot.reply_to(message, "Custo e retorno estimado das DGs (considerando lock-in):" +
+        "\nGold Lv1: custo: *{:,.2f}*".format(3553*gold_usd) +" USD - retorno (0.1 BNX): *{:,.2f}* USD".format(bnx_usd*0.1*1.5) + 
+        "\nGold Lv2: custo: *{:,.2f}*".format(5613*gold_usd) +" USD - retorno (0.2 BNX): *{:,.2f}* USD".format(bnx_usd*0.2*1.5) + 
+        "\nGold Lv3: custo: *{:,.2f}*".format(8787*gold_usd) +" USD - retorno (0.3 BNX): *{:,.2f}* USD".format(bnx_usd*0.3*1.5) + 
+        "\n" +
+        "\nCristal Lv1: custo: *{:,.2f}*".format(125*crystal_usd) +" USD - retorno (1.12 BNX): *{:,.2f}* USD".format(bnx_usd*1.12*1.5) + 
+        "\nCristal Lv2: custo: *{:,.2f}*".format(229*crystal_usd) +" USD - retorno (2.3 BNX): *{:,.2f}* USD".format(bnx_usd*2.3*1.5) + 
+        "\nCristal Lv3: custo: *{:,.2f}*".format(331*crystal_usd) +" USD - retorno (3 BNX): *{:,.2f}* USD".format(bnx_usd*3*1.5) 
+        ,parse_mode = 'Markdown'
+        )    
+
+
+
 
 @bot.message_handler(commands=['coins'])
 def send_welcome(message):
@@ -286,7 +311,7 @@ def admin_rep(message):
 
 @bot.message_handler(is_admin=True, commands=['iniciarsorteio']) # Check if user is admin
 def admin_rep(message):
-    bot.send_message(message.chat.id, draw.openDraw("Sorteio", 30))
+    bot.send_message(message.chat.id, draw.openDraw("Sorteio", 60))
 
 @bot.message_handler(is_admin=True, commands=['listarparticipantes']) # Check if user is admin
 def admin_rep(message):
