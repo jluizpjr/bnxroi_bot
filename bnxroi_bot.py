@@ -143,14 +143,18 @@ def send_welcome(message):
         crystal_usd = round(float(crystal["data"]["price"]),6)
 
         if(gold_usd < 0.004):
-            gr = str(gold_mining_rate[truncate(gold_usd,4)])
+            #gr = str(gold_mining_rate[truncate(gold_usd,4)])
+            gr=str(gold_mining_rate[truncate(gold_usd,4)])
+
         else:
             gr = "100%"
 
         if(crystal_usd < 0.30):
             cr = "0%"
         elif(crystal_usd < 0.50):
-            cr = str(crystal_mining_rate[round(crystal_usd,2)])
+            #cr = str(crystal_mining_rate[round(crystal_usd,2)])
+            cr = str(crystal_mining_rate[truncate(crystal_usd,2)])
+
         else:
             cr = "100%"
 
