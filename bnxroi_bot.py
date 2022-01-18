@@ -150,7 +150,7 @@ def send_welcome(message):
             gr = "100%"
 
         if(crystal_usd < 0.30):
-            cr = "0%"
+            cr = "0.10%"
         elif(crystal_usd < 0.50):
             #cr = str(crystal_mining_rate[round(crystal_usd,2)])
             cr = str(crystal_mining_rate[truncate(crystal_usd,2)])
@@ -219,7 +219,7 @@ def send_welcome(message):
         if(crystal_usd < 0.30):
             bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
             "\nPreço do Pancakeswap!!" +
-            "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *0%*" +
+            "\nATENÇÃO: Com a cotação do cristal atual o mining ratio é *0.10%*" +
             "\nO mining ratio só é atualizado às 9am BRT"            
             ,parse_mode = 'Markdown'
             )
