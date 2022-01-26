@@ -98,7 +98,7 @@ def draw():
             draw_dict = json.load(f)
             if(len(draw_dict["users"]) < 2):
                 return "O sorteio precisa ter no mínimo 2 participantes"
-            winner = random.randrange(0,len(draw_dict["users"])-1)
+            winner = random.randrange(0,len(draw_dict["users"]))
             f.close()
             return "O vencedor é " + draw_dict["users"][winner]
     except Exception as e:
