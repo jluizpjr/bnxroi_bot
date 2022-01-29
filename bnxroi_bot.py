@@ -3,6 +3,7 @@ import requests
 import random
 import os
 import draw
+import time, threading, schedule
 from utils import truncate
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
@@ -36,6 +37,20 @@ crystal_mining_rate = {
     0.42: "44.72%", 0.43: "49.00%", 0.44: "53.47%", 0.45: "58.19%",
     0.46: "63.25%", 0.47: "68.79%", 0.48: "75.11%", 0.49: "82.93%", 0.50: "100%"
 }
+
+whats_up = [
+    "dungeon de crystal level 2 deu profit hoje", 
+    "perdi uma dungeon por causa da bsc", 
+    "o que salvou a dungeon de Gold foi o item que dropou", 
+    "não sei se faço saque ou reinvisto", 
+    "esperando preço do bnx baixar pra colocar mais em staking",
+    "procurando item no market pra matar o senator",
+    "fazendo a limpa nos mão de alface", 
+    "só de olho no grupo esperando os sorteios",
+    "esperando pix cair na binance",
+    "lá vou eu reinvestir no jogo",
+    "calma, to lendo os fixados"
+]
 
 
 # SimpleCustomFilter is for boolean values, such as is_admin=True
@@ -73,6 +88,17 @@ def send_welcome(message):
 @bot.message_handler(commands=['fixados'])
 def send_welcome(message):
         bot.reply_to(message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
+        )
+
+@bot.message_handler(commands=['bora'])
+def send_bora(message):
+        schedule.every(600).seconds.do(send_bora_s, message.chat.id).tag(message.chat.id)
+        bot.reply_to(message, whats_up[random.randrange(0, len(whats_up))]
+        )
+
+def send_bora_s(message_chat_id) -> None:
+        print("Random message time")
+        bot.send_message(message_chat_id, whats_up[random.randrange(0, len(whats_up))]
         )
 
 @bot.message_handler(commands=['bnx'])
@@ -337,7 +363,7 @@ def send_welcome(message):
     bot.reply_to(message, draw.newTicket(message))
 
 
-@bot.message_handler(commands=['time'])
+@bot.message_handler(commands=['tempo'])
 def send_welcome(message):
         bot.reply_to(message, draw.checkTime(message))
 
@@ -354,5 +380,8 @@ def echo_all(message):
 
 bot.add_custom_filter(IsAdmin())
 
-bot.infinity_polling()
-
+if __name__ == '__main__':
+    threading.Thread(target=bot.infinity_polling, name='bot_infinity_polling', daemon=True).start()
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
