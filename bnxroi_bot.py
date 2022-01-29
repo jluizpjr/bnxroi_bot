@@ -304,33 +304,37 @@ def admin_rep(message):
 
 @bot.message_handler(is_admin=True, commands=['iniciarsorteio']) # Check if user is admin
 def admin_rep(message):
-    bot.send_message(message.chat.id, draw.openDraw("Sorteio", 60))
+    args = message.text.split()
+    if len(args) > 1 and args[1].isdigit():
+        duration = int(args[1])
+        bot.send_message(message.chat.id, draw.openDraw("Raffle", duration ,message))
+    else:
+        bot.send_message(message.chat.id, "Usage: /iniciarsorteio <minutes>")      
 
 @bot.message_handler(is_admin=True, commands=['listarparticipantes']) # Check if user is admin
 def admin_rep(message):
-    bot.send_message(message.chat.id, draw.listParticipants())
+    bot.send_message(message.chat.id, draw.listParticipants(message))
 
 @bot.message_handler(is_admin=True, commands=['sortear']) # Check if user is admin
 def admin_rep(message):
-    bot.send_message(message.chat.id, draw.draw())
+    bot.send_message(message.chat.id, draw.draw(message))
+
 
 @bot.message_handler(is_admin=True, commands=['finalizarsorteio']) # Check if user is admin
 def admin_rep(message):
-    bot.send_message(message.chat.id, draw.closeDraw())
+    bot.send_message(message.chat.id, draw.closeDraw(message))
 
 
 ################ GENERAL COMMANDS ##################
 
 @bot.message_handler(commands=['ticket'])
 def send_welcome(message):
-    if(message.from_user.username != None):
-        bot.reply_to(message, draw.newTicket(message.from_user.username))
-    else:
-        bot.reply_to(message, draw.newTicket(message.from_user.first_name))
+    bot.reply_to(message, draw.newTicket(message))
 
-@bot.message_handler(commands=['tempo'])
+
+@bot.message_handler(commands=['time'])
 def send_welcome(message):
-        bot.reply_to(message, draw.checkTime())
+        bot.reply_to(message, draw.checkTime(message))
 
 
 
