@@ -70,6 +70,11 @@ def send_welcome(message):
         "\nhttps://discord.gg/bQ8R4WUxZN"
         )
 
+@bot.message_handler(commands=['fixados'])
+def send_welcome(message):
+        bot.reply_to(message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
+        )
+
 @bot.message_handler(commands=['bnx'])
 def send_welcome(message):
         bnx = cmc.cryptocurrency_quotes_latest(id='9891') #BNX id 9891
