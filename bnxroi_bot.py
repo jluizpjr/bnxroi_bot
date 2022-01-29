@@ -63,6 +63,7 @@ class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
 
 @bot.message_handler(commands=['start', 'help', 'ajuda'])
 def send_welcome(message):
+        schedule.every(3600).seconds.do(send_bora_s, message.chat.id).tag(message.chat.id)
         bot.reply_to(message, "Bem vindo" +
         "\n   Digite /bnx para ver a cotação do BNX" +
         "\n   Digite /gold para ver a cotação do GOLD"
@@ -92,7 +93,6 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['bora'])
 def send_bora(message):
-        schedule.every(600).seconds.do(send_bora_s, message.chat.id).tag(message.chat.id)
         bot.reply_to(message, whats_up[random.randrange(0, len(whats_up))]
         )
 
