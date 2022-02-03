@@ -88,7 +88,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['fixados'])
 def send_welcome(message):
-        bot.reply_to(message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
+        bot.reply_to(message.reply_to_message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
         )
 
 @bot.message_handler(commands=['bora'])
