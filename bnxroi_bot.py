@@ -52,7 +52,6 @@ whats_up = [
     "calma, to lendo os fixados"
 ]
 
-
 # SimpleCustomFilter is for boolean values, such as is_admin=True
 class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
     key='is_admin'
