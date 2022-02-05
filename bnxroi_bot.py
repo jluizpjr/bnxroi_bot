@@ -52,7 +52,6 @@ whats_up = [
     "calma, to lendo os fixados"
 ]
 
-
 # SimpleCustomFilter is for boolean values, such as is_admin=True
 class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
     key='is_admin'
@@ -88,8 +87,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['fixados'])
 def send_welcome(message):
-        print(message)
-        bot.reply_to(message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
+        bot.reply_to(message.reply_to_message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
         )
 
 @bot.message_handler(commands=['bora'])
