@@ -3,6 +3,7 @@ import requests
 import random
 import os
 import draw
+import contest
 import time, threading, schedule
 from utils import truncate
 
@@ -317,7 +318,7 @@ def send_welcome(message):
 #
 #####################################################################################
 
-################ GENERAL COMMANDS ##################
+################ ADMIN COMMANDS ##################
 
 @bot.message_handler(is_admin=True, commands=['ajudasorteio']) # Check if user is admin
 def admin_rep(message):
@@ -364,6 +365,32 @@ def send_welcome(message):
         bot.reply_to(message, draw.checkTime(message))
 
 
+
+#####################################################################################
+# Contest Section
+#
+#####################################################################################
+
+################ ADMIN COMMANDS ##################
+@bot.message_handler(is_admin=True, commands=['startcontest']) # Check if user is admin
+def admin_rep(message):
+    args = message.text.split()
+    if len(args) > 1 and args[1].isdigit():
+        duration = int(args[1])
+        bot.send_message(message.chat.id, contest.openContest(duration ,message))
+    else:
+        bot.send_message(message.chat.id, "Usage: /startcontest <minutes>")      
+
+@bot.message_handler(is_admin=True, commands=['endcontest']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, contest.closeContest(message))
+
+
+################ GENERAL COMMANDS ##################
+
+@bot.message_handler(commands=['vote'])
+def send_welcome(message):
+    bot.reply_to(message, contest.vote(message))
 
 #####################################################################################
 # Filter Section
