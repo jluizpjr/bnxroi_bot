@@ -88,6 +88,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['fixados'])
 def send_welcome(message):
+        print(message)
         bot.reply_to(message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
         )
 
@@ -120,8 +121,7 @@ def send_welcome(message):
  
         crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
         crystal_usd = round(float(crystal["data"]["price"]),6)
-
-        
+ 
         crystal_lv1 = ((125*crystal_usd)/bnx_usd)/1.12
         crystal_lv2 = ((229*crystal_usd)/bnx_usd)/2.3
 
@@ -176,7 +176,6 @@ def send_welcome(message):
         if(gold_usd < 0.004):
             #gr = str(gold_mining_rate[truncate(gold_usd,4)])
             gr=str(gold_mining_rate[truncate(gold_usd,4)])
-
         else:
             gr = "100%"
 
@@ -185,7 +184,6 @@ def send_welcome(message):
         elif(crystal_usd < 0.50):
             #cr = str(crystal_mining_rate[round(crystal_usd,2)])
             cr = str(crystal_mining_rate[truncate(crystal_usd,2)])
-
         else:
             cr = "100%"
 
