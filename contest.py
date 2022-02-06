@@ -91,9 +91,10 @@ def vote(message):
     try:
         f = open(str("contest"+str(message.chat.id)+".json"), "r")
         contest_dict = json.load(f)
-        if(time.time() > (contest_dict['openTime']+contest_dict['duration']*60) ):
+        '''if(time.time() > (contest_dict['openTime']+contest_dict['duration']*60) ):
             f.close()
             return "Time's up"
+        '''
 
         with open(str("contest"+str(message.chat.id)+".json"), "r+") as f:
             contest_dict = json.load(f)
