@@ -30,7 +30,9 @@ def openContest(minutes,message):
         global connection
         connection = sqlite3.connect(str("contest"+str(message.chat.id)+".db"))
         cursor = connection.cursor()
-        cursor.execute("CREATE TABLE " + str("contest"+str(message.chat.id)) + " (from_user TEXT, meme TEXT, votes INTEGER)")
+        table = str("contest"+str(message.chat.id))  
+        cursor.execute('CREATE TABLE meme (from_user text, meme text, votes integer, chat_id integer, msg_id integer)')
+        connection.commit()
         connection.close()
         return "Meme Contest started \nReply with /vote on the meme (picture) you like"
 
@@ -55,6 +57,7 @@ def closeContest(message):
 def vote(message):
 
     msg = []
+    print("vote") 
 
     #Define who's voting
     if(message.from_user.username != None):
@@ -62,21 +65,29 @@ def vote(message):
     else:
         user = str(message.from_user.first_name)
 
+    print("User: "+user)
+
     #Define who's being voted
     if(message.reply_to_message.from_user.username != None):
         from_user = message.reply_to_message.from_user.username       
+        print("From_User: "+from_user)
     else:
-        return "You cannot vote for yourself"
+        return "Content not supported"
+
+    print(message.reply_to_message)
 
     #Define de content type
     if(message.reply_to_message.content_type == "sticker"): 
         meme = message.reply_to_message.sticker.file_id
     elif(message.reply_to_message.content_type == "animation"):
         meme = message.reply_to_message.animation.file_id
+    elif(message.reply_to_message.content_type == "photo"):
+        meme = message.reply_to_message.photo[0].file_id
     else:
         return "Content not identified"
     
-    print("vote")    
+    print("Meme: "+meme)
+   
     try:
         f = open(str("contest"+str(message.chat.id)+".json"), "r")
         contest_dict = json.load(f)
@@ -90,58 +101,71 @@ def vote(message):
                 if(key==user):
                     f.close()
                     return "User already voted"
-
+            
             contest_dict['users'].append(user)
 
             ########################################
             #Open database, include [from_user, meme, votes]
             connection = sqlite3.connect(str("contest"+str(message.chat.id)+".db"))
             cursor = connection.cursor()
-            
-            #Validate if MEME is already in DB
-            cursor.execute("SELECT * FROM " + str("contest"+str(message.chat.id)) + ".db WHERE meme = ?", (meme,))
+            print("connection open")
+
+            #Validate if MEME is already in DB, othrwise add it
+            cursor.execute('SELECT * FROM meme WHERE meme=?', (meme,))
+
             if item := cursor.fetchone():
-                cursor.execute("UPDATE " + str("contest"+str(message.chat.id)) + ".db SET votes = votes + 1 WHERE meme = ?", (meme,))
+                cursor.execute('UPDATE meme SET votes = votes + 1 WHERE meme=?', (meme,))
                 print("Meme found, need to increment the votes")
             else:
-                cursor.execute("INSERT INTO " + str("contest"+str(message.chat.id)) + ".db VALUES (?,?,?)", (from_user, meme, 0))
+                cursor.execute('INSERT INTO meme VALUES (?,?,?,?,?)', (from_user, meme, 1, message.reply_to_message.chat.id, message.reply_to_message.id ))
                 print("Meme not found, need to include")
 
-
+            ############ TEST ###################
+            cursor.execute("SELECT * FROM meme" )
+            rows = cursor.fetchall()
+            for row in rows:
+                print(row)
+            connection.commit()
+            connection.close()
             ####################################
 
-
-
             f.seek(0,0)
-            print(contest_dict)
             json.dump(contest_dict, f)
             f.close()
             return "Voted!"             
     except Exception as e:
         print(f"Unexpected {e=}, {type(e)=}")
-        return "There is no ongoing contest"
+        return "Error processing meme"
 
     finally:
         pass
 
-# listParticipants() - List total participants already enrolled
+# listMeme() - List total participants already enrolled
 # args: none
 # return: str
 # ADMIN_ONLY
-def listParticipants(message):
+def listMemes(message):
+    print("listMeme")
     try:
-        with open(str("contest"+str(message.chat.id)+".json"), "r") as f:
-            contest_dict = json.load(f)
-            lista = ""
-            i = 1
-            for key in contest_dict["users"]:
-                lista += str(i) + " - " + key + "\n"
-                i += 1
-            f.close()
-            return lista
+            connection = sqlite3.connect(str("contest"+str(message.chat.id)+".db"))
+            cursor = connection.cursor()
+
+            cursor.execute("SELECT from_user,votes, msg_id FROM meme ORDER BY votes desc")
+            rows = cursor.fetchall()
+            list = "Username | Votes | Link to Meme\n"
+            for row in rows:
+                print(row)
+                list +=  "@"+row[0] + ": " + str(row[1]) + \
+                " <a href='https://t.me/" + str(message.chat.username) + \
+                "/" + str(row[2]) + \
+                "'> Meme </a>" + "\n"
+            list += "Just reply with /vote on you favorite meme"
+            #print(list)
+            return list
+
     except Exception as e:
         print(f"Unexpected {e=}, {type(e)=}")
-        return "There is no ongoing raffle"
+        return "There is no ongoing contest"
 
 # draw() - Selects winner
 # args: none

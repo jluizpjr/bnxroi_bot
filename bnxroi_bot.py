@@ -6,6 +6,7 @@ import draw
 import contest
 import time, threading, schedule
 from utils import truncate
+from telebot import types
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 
@@ -384,6 +385,10 @@ def admin_rep(message):
 @bot.message_handler(is_admin=True, commands=['endcontest']) # Check if user is admin
 def admin_rep(message):
     bot.send_message(message.chat.id, contest.closeContest(message))
+
+@bot.message_handler(is_admin=True, commands=['listmeme']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, contest.listMemes(message),  parse_mode = 'HTML', disable_web_page_preview=True)
 
 
 ################ GENERAL COMMANDS ##################
