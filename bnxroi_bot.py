@@ -411,7 +411,7 @@ def send_welcome(message):
 @bot.message_handler(is_admin=True, commands=['helpama']) # Check if user is admin
 def admin_rep(message):
         bot.reply_to(message, "Bem vindo" +
-        "\n   /startama Start AMA Q&A session [comment] [hours]*(ADM)*" +
+        "\n   /startama Start AMA Q&A session <comment> <hours>*(ADM)*" +
         "\n   /question Send question to AMA Q&A" +
         "\n   /delquestion Delete question sent to AMA Q&A" +
         "\n   /listquestions List all questions *(ADM)*" +
