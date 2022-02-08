@@ -33,7 +33,7 @@ def openAma(message):
     else:
         ama_dict['description'] = parsed[1]
         ama_dict['openTime'] = time.time()
-        ama_dict['duration'] = int(parsed[2]*60)
+        ama_dict['duration'] = int(parsed[2])*60
         ama_dict['users'] = []
         json.dump(ama_dict, f)
         f.close()
@@ -145,9 +145,7 @@ def delQuestion(message):
 
         with open(str("ama"+str(message.chat.id)+".json"), "r+") as f:
             ama_dict = json.load(f)
-            ulist = ama_dict["users"] 
-            print(ulist)
-            ulist.remove(user)
+            ama_dict['users'].remove(user)
             
             ########################################
             #Open database, include [from_user, meme, votes]
@@ -167,6 +165,7 @@ def delQuestion(message):
             ####################################
 
             f.seek(0,0)
+            f.truncate()
             json.dump(ama_dict, f)
             f.close()
             return "Question deleted!"             
