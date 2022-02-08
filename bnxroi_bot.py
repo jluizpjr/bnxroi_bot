@@ -424,9 +424,13 @@ def admin_rep(message):
     bot.send_message(message.chat.id, ama.listQuestions(message),parse_mode = 'Markdown')     
 
 ################ GENERAL COMMANDS ##################
-@bot.message_handler(commands=['ama'])
+@bot.message_handler(commands=['question'])
 def send_welcome(message):
-    bot.reply_to(message, ama.ama(message))
+    bot.reply_to(message, ama.question(message))
+
+@bot.message_handler(commands=['delquestion'])
+def send_welcome(message):
+    bot.reply_to(message, ama.delQuestion(message))
 
 #####################################################################################
 # Filter Section
