@@ -101,7 +101,7 @@ def question(message):
             cursor = connection.cursor()
             print("connection open")
 
-            cursor.execute("INSERT INTO ama VALUES (?,?,?,?)" , (user , message.text[11:], None, None ))
+            cursor.execute("INSERT INTO ama VALUES (?,?,?,?)" , (user , message.text[10:], None, None ))
 
             ############ TEST ###################
             cursor.execute("SELECT * FROM ama" )
