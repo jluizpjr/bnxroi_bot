@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Ama {% endblock %}</h1>
+    {% for question in questions %}
+        <div class='questions'>
+            <hr>
+            <p>From user: {{ question['user'] }}</p>
+            <h2>{{ question['question'] }}</h2>
+            
+        </div>
+    {% endfor %}
+{% endblock %}
