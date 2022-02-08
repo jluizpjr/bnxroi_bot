@@ -4,9 +4,11 @@ import random
 import os
 import draw
 import contest
+import ama
 import time, threading, schedule
 from utils import truncate
 from telebot import types
+
 
 from coinmarketcapapi import CoinMarketCapAPI, CoinMarketCapAPIError
 
@@ -396,6 +398,35 @@ def admin_rep(message):
 @bot.message_handler(commands=['vote'])
 def send_welcome(message):
     bot.reply_to(message, contest.vote(message))
+
+
+
+#####################################################################################
+# AMA Section
+#
+#####################################################################################
+
+################ ADMIN COMMANDS ##################
+@bot.message_handler(is_admin=True, commands=['startama']) # Check if user is admin
+def admin_rep(message):
+    args = message.text.split()
+    if len(args) > 1 :
+        bot.send_message(message.chat.id, ama.openAma(message))
+    else:
+        bot.send_message(message.chat.id, "Usage: /startama 'description' <hours>")      
+
+@bot.message_handler(is_admin=True, commands=['endama']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, ama.closeAma(message))
+
+@bot.message_handler(is_admin=True, commands=['listquestions']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, ama.listQuestions(message),parse_mode = 'Markdown')     
+
+################ GENERAL COMMANDS ##################
+@bot.message_handler(commands=['ama'])
+def send_welcome(message):
+    bot.reply_to(message, ama.ama(message))
 
 #####################################################################################
 # Filter Section
