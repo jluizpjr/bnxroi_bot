@@ -407,6 +407,17 @@ def send_welcome(message):
 #####################################################################################
 
 ################ ADMIN COMMANDS ##################
+
+@bot.message_handler(is_admin=True, commands=['helpama']) # Check if user is admin
+def admin_rep(message):
+        bot.reply_to(message, "Bem vindo" +
+        "\n   /startama Start AMA Q&A session [comment] [hours]*(ADM)*" +
+        "\n   /question Send question to AMA Q&A" +
+        "\n   /delquestion Delete question sent to AMA Q&A" +
+        "\n   /listquestions List all questions *(ADM)*" +
+        "\n   /endama End AMA Q&A session *(ADM)*"                         
+        ,parse_mode = 'Markdown')   
+
 @bot.message_handler(is_admin=True, commands=['startama']) # Check if user is admin
 def admin_rep(message):
     args = message.text.split()
