@@ -45,7 +45,7 @@ def openAma(message):
         cursor.execute('CREATE TABLE ama (user text, question text, translated_question text, answer text)')
         connection.commit()
         connection.close()
-        return "AMA Q&A  started \nYou may send your questions with /question [question]"
+        return "AMA Q&A  started \nYou may send your questions with /question command"
 
 
 # closeAma(message) - End current AMA Q&A
@@ -193,7 +193,7 @@ def listQuestions(message):
             for row in rows:
                 print(row)
                 list += "*" + row[0] + "*" + "\n" + str(row[1]) + "\n\n"
-            list += "Just send your question with /question [question]"
+            list += "Just send your question with /question command"
             #print(list)
             return list
 
