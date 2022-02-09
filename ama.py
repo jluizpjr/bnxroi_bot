@@ -177,6 +177,15 @@ def delQuestion(message):
         pass
 
 
+# admdelQuestion(message) - ADM Delete question from specific user
+# args: str user
+# return: str confirmation/error
+def admdelQuestion(message):
+    parsed = shlex.split(message.text)
+    print(parsed[1])
+    message.from_user.username = parsed[1]
+    delQuestion(message)
+
 # listQuestions() - List questions submitted
 # args: message
 # return: str

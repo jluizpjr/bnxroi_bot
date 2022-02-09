@@ -414,6 +414,7 @@ def admin_rep(message):
         "\n   /startama Start AMA Q&A session <comment> <hours>*(ADM)*" +
         "\n   /question Send question to AMA Q&A" +
         "\n   /delquestion Delete question sent to AMA Q&A" +
+        "\n   /admdelquestion [user] Delete question from user *(ADM)*" +      
         "\n   /listquestions List all questions *(ADM)*" +
         "\n   /endama End AMA Q&A session *(ADM)*"                         
         ,parse_mode = 'Markdown')   
@@ -433,6 +434,10 @@ def admin_rep(message):
 @bot.message_handler(is_admin=True, commands=['listquestions']) # Check if user is admin
 def admin_rep(message):
     bot.send_message(message.chat.id, ama.listQuestions(message))   
+
+@bot.message_handler(is_admin=True, commands=['admdelquestion']) # Check if user is admin
+def admin_rep(message):
+    bot.send_message(message.chat.id, ama.admdelQuestion(message))  
 
 ################ GENERAL COMMANDS ##################
 @bot.message_handler(commands=['question'])
