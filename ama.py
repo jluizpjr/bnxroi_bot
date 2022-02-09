@@ -192,9 +192,9 @@ def listQuestions(message):
             list = "*Questions already submitted*\n\n"
             for row in rows:
                 print(row)
-                list += "*" + row[0] + "*" + "\n" + str(row[1]) + "\n\n"
+                list += row[0] + "\n" + str(row[1]) + "\n\n"
             list += "Just send your question with /question command"
-            #print(list)
+            print(list)
             return list
 
     except Exception as e:

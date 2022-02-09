@@ -432,7 +432,7 @@ def admin_rep(message):
 
 @bot.message_handler(is_admin=True, commands=['listquestions']) # Check if user is admin
 def admin_rep(message):
-    bot.send_message(message.chat.id, ama.listQuestions(message),parse_mode = 'Markdown')   
+    bot.send_message(message.chat.id, ama.listQuestions(message))   
 
 ################ GENERAL COMMANDS ##################
 @bot.message_handler(commands=['question'])
@@ -445,7 +445,7 @@ def send_welcome(message):
 '''
 @bot.message_handler(commands=['listquestions'])
 def send_welcome(message):
-    bot.send_message(message.chat.id, ama.listQuestions(message),parse_mode = 'Markdown')
+    bot.send_message(message.chat.id, ama.listQuestions(message))
 '''
 #####################################################################################
 # Filter Section
