@@ -72,7 +72,7 @@ def question(message):
 
     question = shlex.split(message.text)
     print(question[1])
-    if(question[1] in None):
+    if(question[1] is None):
         return "Please type /question 'Question text?'"
 
     #Define who's asking
