@@ -71,9 +71,13 @@ def question(message):
     print("ama") 
 
 
-    question = shlex.split(message.text)
-    if(question[1] is None):
+    try: 
+        question = shlex.split(message.text)
+        if(question[1] is None):
+            return "Please type /question 'Question text?'"
+    except IndexError:
         return "Please type /question 'Question text?'"
+
 
     #Define who's asking
     if(message.from_user.username != None):
