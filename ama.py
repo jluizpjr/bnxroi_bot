@@ -184,7 +184,7 @@ def admdelQuestion(message):
     parsed = shlex.split(message.text)
     print(parsed[1])
     message.from_user.username = parsed[1]
-    delQuestion(message)
+    return delQuestion(message)
 
 # listQuestions() - List questions submitted
 # args: message
