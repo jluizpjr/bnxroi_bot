@@ -14,6 +14,15 @@
     <nav>
         <a href="{{ url_for('index') }}">AMA - Feb 11th 13 UTC</a>
         <button class="enableEthereumButton">Enable Ethereum</button>
+        <script>
+            const ethereumButton = document.querySelector('.enableEthereumButton');
+
+            ethereumButton.addEventListener('click', () => {
+            //Will Start the metamask extension
+            ethereum.request({ method: 'eth_requestAccounts' });
+            });
+        </script>
+
     </nav>
     <hr>
     <div class="content">
