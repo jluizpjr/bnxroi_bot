@@ -15,3 +15,8 @@ def index():
     questions = conn.execute('SELECT * FROM ama').fetchall()
     conn.close()
     return render_template('index.html', questions=questions)
+
+@app.route('/bsc/')
+def bsc():
+    return render_template('bsc.html')    
+

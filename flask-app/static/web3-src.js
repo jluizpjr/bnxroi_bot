@@ -3,6 +3,7 @@ const web3 = new Web3("https://bsc-dataseed.binance.org")
 
 const getCurrentBlock = document.querySelector('.getCurrentBlock');
 const bnxBalance = document.querySelector('.bnxBalance');
+const alfaceBalance = document.querySelector('.alfaceBalance');
 
 const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.enableEthereumButton');
@@ -14,9 +15,7 @@ const mintDiamondAmount = document.querySelector('.mintDiamondAmount');
 
 const bnxAddress = "0x8c851d1a123ff703bd1f9dabe631b69902df5f97";
 const diamondAddress = "0x5f16128A0A10fF02AB645A81d9E6589D1c599850";
-
-
-//const holderAddress = "0x54b6Ea430199F50dD59fE333F24b0DdD572e0B9a";
+const alfaceAddress = "0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd"
 
 
 getCurrentBlock.addEventListener('click', () => {
@@ -46,6 +45,27 @@ async function getBNX(){
   // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
   console.log(balance);
   bnxBalance.innerHTML = balance/(10**18);
+
+
+}
+
+
+//###################### ALFC Handling ######################
+alfaceBalance.addEventListener('click', () => {
+  console.log("Calling getALFC")
+  getALFC();
+});
+
+async function getALFC(){
+  const abiJson = [
+    {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
+  ];
+  
+  const contract = new web3.eth.Contract(abiJson, alfaceAddress);
+  const balance = await contract.methods.balanceOf(await getAccount()).call();
+  // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
+  console.log(balance);
+  alfaceBalance.innerHTML = balance/(10**18);
 
 
 }

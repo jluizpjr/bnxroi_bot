@@ -15,36 +15,10 @@
 <body>
     <nav>
         <a href="{{ url_for('index') }}">AMA - Feb 11th 13 UTC</a>
-        <p></p>
-        <button class="enableEthereumButton" id="enableEthereumButton">Enable Ethereum</button>
-        <p></p>
-        <button class="getCurrentBlock" id="getCurrentBlock">Get Current Block</button>
-        <p></p>
-        <button class="bnxBalance" id="bnxBalance">Get BNX Balance</button>
-        <p></p>
-        <button class="diamondBalance" id="diamondBalance">Get Diamond Balance</button>
-        <p></p>
-        <button class="diamondMint" id="diamondMint">Mint Diamond To Address: Add: 0x5f16128A0A10fF02AB645A81d9E6589D1c599850</button>
-        <p></p>
-        Address: <input class="mintDiamondToAddress" id="mintDiamondToAddress"><br>
-        Amount: <input class="mintDiamondAmount" id="mintDiamondAmount"><br>
-
-
-
     </nav>
     <hr>
     <div class="content">
         {% block content %} {% endblock %}
     </div>
-    <script>
-        var usedLaterScript = document.createElement('script');
-        usedLaterScript.src = '/static/functions.js';
-        document.body.appendChild(usedLaterScript);
-    </script>
-    <script>
-        var usedLaterScript = document.createElement('script');
-        usedLaterScript.src = '/static/bundle.js';
-        document.body.appendChild(usedLaterScript);
-    </script>
 </body>
 </html>
