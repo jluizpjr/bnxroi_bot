@@ -3,24 +3,26 @@
 {% block content %}
     <h3>{% block title %} BSC Functions {% endblock %}</h3>
     <p></p>
-    <button class="enableEthereumButton" id="enableEthereumButton">Enable MetaMask</button>
+    <button class="enableMetaMaskButton" id="enableMetaMaskButton">Enable MetaMask</button>
+    <div class="walletAddress" id="walletAddress">Wallet not connected</div><hr>
     <p></p>
-    <button class="getCurrentBlock" id="getCurrentBlock">Get Current BSC Block</button>
+    <button class="getCurrentBlockButton" id="getCurrentBlockButton">Get Current BSC Block</button>
+    <div class="currentBlock" id="currentBlock">N/A</div><hr>
     <p></p>
-    <button class="bnxBalance" id="bnxBalance">Get BNX Balance</button>
+    <button class="getBNXBalanceButton" id="getBNXBalanceButton">Get BNX Balance</button>
+    <div class="bnxBalance" id="bnxBalance">N/A</div><hr>
     <p></p>
-    <button class="diamondBalance" id="diamondBalance">Get Diamond Balance</button>
+    <button class="getDiamondBalanceButton" id="getDiamondBalanceButton">Get Diamond Balance</button>
+    <div class="diamondBalance" id="diamondBalance">N/A</div><hr>
     <p></p>
-    <button class="alfaceBalance" id="alfaceBalance">Get Alface Balance</button>    
+    Contract: 0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd 
     <p></p>
-    <button class="alfaceMint" id="alfaceMint">Mint ALFC To Address: Contract: 0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd</button>
+    <button class="getAlfaceBalanceButton" id="getAlfaceBalanceButton">Get Alface Balance</button>    
+    <div class="alfaceBalance" id="alfaceBalance">N/A</div>
+    <p></p>
+    <button class="alfaceMintButton" id="alfaceMintButton">Mint ALFC</button>
     <p></p>
     Amount: <input class="mintALFCAmount" id="mintALFCAmount"><br>
-    <script>
-        var usedLaterScript = document.createElement('script');
-        usedLaterScript.src = '/static/functions.js';
-        document.body.appendChild(usedLaterScript);
-    </script>
     <script>
         var usedLaterScript = document.createElement('script');
         usedLaterScript.src = '/static/bundle.js';

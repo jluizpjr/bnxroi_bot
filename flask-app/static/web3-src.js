@@ -6,40 +6,51 @@ var Web3 = require("web3")
 //Trying to use Metamask instead
 const web3 = new Web3(window.ethereum)
 
-const getCurrentBlock = document.querySelector('.getCurrentBlock');
-const bnxBalance = document.querySelector('.bnxBalance');
-const alfaceBalance = document.querySelector('.alfaceBalance');
-
-const ethereumButton = document.querySelector('.enableEthereumButton');
-const showAccount = document.querySelector('.enableEthereumButton');
-const diamondBalance = document.querySelector('.diamondBalance');
-const alfaceMint = document.querySelector('.alfaceMint');
-const mintALFCAmount = document.querySelector('.mintALFCAmount');
-
-
 const bnxAddress = "0x8c851d1a123ff703bd1f9dabe631b69902df5f97";
 const diamondAddress = "0x5f16128A0A10fF02AB645A81d9E6589D1c599850";
 const alfaceAddress = "0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd"
 
 
-getCurrentBlock.addEventListener('click', () => {
+//####################### Get Account #######################
+const enableMetaMaskButton = document.querySelector('.enableMetaMaskButton');
+const showAccount = document.querySelector('.walletAddress');
+
+enableMetaMaskButton.addEventListener('click', () => {
+  console.log("Enabling MetaMask")
+  getAccount();
+});
+
+async function getAccount() {
+  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  const account = accounts[0];
+  enableMetaMaskButton.disabled = true;
+  showAccount.innerHTML = "Wallet=" + account;
+  return account;
+}
+
+//####################### Get Current Block ################
+const getCurrentBlockButton = document.querySelector('.getCurrentBlockButton');
+
+getCurrentBlockButton.addEventListener('click', () => {
   console.log("getCurrentBlock")
   getBlockNumber();
 });
 
 async function getBlockNumber() {
-  const latestBlockNumber = await web3.eth.getBlockNumber()
-  console.log(latestBlockNumber)
-  getCurrentBlock.innerHTML = latestBlockNumber;
-  return latestBlockNumber
+  const currentBlockNumber = await web3.eth.getBlockNumber()
+  console.log(currentBlockNumber)
+  currentBlock.innerHTML = currentBlockNumber;
+  return currentBlockNumber
 }
 //###################### BNX Handling ######################
-bnxBalance.addEventListener('click', () => {
-  console.log("Calling getBNX")
-  getBNX();
+const getBNXBalanceButton = document.querySelector('.getBNXBalanceButton');
+
+getBNXBalanceButton.addEventListener('click', () => {
+  console.log("Calling getBNXBalance")
+  BNXBalance();
 });
 
-async function getBNX(){
+async function BNXBalance(){
   const abiJson = [
     {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
   ];
@@ -49,15 +60,36 @@ async function getBNX(){
   // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
   console.log(balance);
   bnxBalance.innerHTML = balance/(10**18);
-
-
 }
 
+//###################### Diamond Handling ######################
+const getDiamondBalanceButton = document.querySelector('.getDiamondBalanceButton');
+
+getDiamondBalanceButton.addEventListener('click', () => {
+  console.log("Calling diamondBalance");
+  DiamondBalance();
+});
+
+async function DiamondBalance(){
+  const abiJson = [
+    {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
+  ];
+  
+  const contract = new web3.eth.Contract(abiJson, diamondAddress);
+  const balance = await contract.methods.balanceOf(await getAccount()).call();
+  // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
+  console.log(balance);
+  diamondBalance.innerHTML = balance/(10**18);
+}
 
 //###################### ALFC Handling ######################
-alfaceBalance.addEventListener('click', () => {
+const getAlfaceBalanceButton = document.querySelector('.getAlfaceBalanceButton');
+const alfaceMintButton = document.querySelector('.alfaceMintButton');
+const mintALFCAmount = document.querySelector('.mintALFCAmount');
+
+getAlfaceBalanceButton.addEventListener('click', () => {
   console.log("Calling getALFC")
-  getALFC();
+  AlfaceBalance();
 });
 
 alfaceMint.addEventListener('click', () => {
@@ -65,7 +97,7 @@ alfaceMint.addEventListener('click', () => {
   mintAlface();
 });
 
-async function getALFC(){
+async function AlfaceBalance(){
   const abiJson = [
     {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
   ];
@@ -90,38 +122,9 @@ async function mintAlface() {
 
 }
 
-//###################### Diamond Handling ######################
-diamondBalance.addEventListener('click', () => {
-  console.log("Calling diamondBalance");
-  getdiamondBalance();
-});
 
 
 
-async function getdiamondBalance(){
-  const abiJson = [
-    {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
-  ];
-  
-  const contract = new web3.eth.Contract(abiJson, diamondAddress);
-  const balance = await contract.methods.balanceOf(await getAccount()).call();
-  // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
-  console.log(balance);
-  diamondBalance.innerHTML = balance/(10**18);
-}
 
 
-
-//####################### Get Account #######################
-ethereumButton.addEventListener('click', () => {
-  console.log("Teste")
-  getAccount();
-});
-
-async function getAccount() {
-  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-  const account = accounts[0];
-  showAccount.innerHTML = account;
-  return account;
-}
 
