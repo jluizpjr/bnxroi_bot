@@ -1,5 +1,10 @@
 var Web3 = require("web3")
-const web3 = new Web3("https://bsc-dataseed.binance.org")
+
+//Trying to connect direct to a node
+//const web3 = new Web3("https://bsc-dataseed.binance.org")
+
+//Trying to use Metamask instead
+const web3 = new Web3(window.ethereum)
 
 const getCurrentBlock = document.querySelector('.getCurrentBlock');
 const bnxBalance = document.querySelector('.bnxBalance');
@@ -84,27 +89,7 @@ async function mintAlface() {
   ];
   const contract = new web3.eth.Contract(abiJson, alfaceAddress);
 
-  //await contract.methods.mint(mintALFCAmount.value).call();
-  tx_hash =  contract.methods.mint(mintALFCAmount.value).buildTransaction({
-
-    "chainId": 56,
-    "gasPrice": 3000,
-    "from": getAccount(),
-    "nonce": 0,
-});
-
-  tx_hash.update({'gas': 20000000})
-  tx_hash.update({'nonce': w3.eth.getTransactionCount(address)})
-  signed_tx = w3.eth.account.sign_transaction(tx_hash, private_key)
-
-  txn_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-
-  // Wait for transaction to be mined...
-  rec = w3.eth.waitForTransactionReceipt(txn_hash)
-
-  print(rec)
-
-
+  await contract.methods.mint(mintALFCAmount.value).send({ "from":await getAccount()});
 
 }
 
