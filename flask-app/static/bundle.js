@@ -76493,10 +76493,19 @@ async function mintAlface() {
   console.log("Amount:"+mintALFCAmount.value);
 
   const abiJson = [
-    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"},{"name":"Addr","type":"address"}],"name":"mintToAddress","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
+    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"}],"name":"mint","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
+//    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"},{"name":"Addr","type":"address"}],"name":"mintToAddress","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
   ];
   const contract = new web3.eth.Contract(abiJson, alfaceAddress);
-  await contract.methods.mintToAddress(mintALFCAmount.value, mintALFCToAddress.value).call();
+
+  //await contract.methods.mint(mintALFCAmount.value).call();
+  await contract.methods.mint(mintALFCAmount.value).buildTransaction({
+
+    "chainId": 56,
+    "gasPrice": 3000,
+    "from": getAccount(),
+    "nonce": 0,
+})
 }
 
 //###################### Diamond Handling ######################

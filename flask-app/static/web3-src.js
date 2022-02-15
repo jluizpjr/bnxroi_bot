@@ -79,10 +79,33 @@ async function mintAlface() {
   console.log("Amount:"+mintALFCAmount.value);
 
   const abiJson = [
-    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"},{"name":"Addr","type":"address"}],"name":"mintToAddress","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
+    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"}],"name":"mint","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
+//    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"},{"name":"Addr","type":"address"}],"name":"mintToAddress","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
   ];
   const contract = new web3.eth.Contract(abiJson, alfaceAddress);
-  await contract.methods.mintToAddress(mintALFCAmount.value, mintALFCToAddress.value).call();
+
+  //await contract.methods.mint(mintALFCAmount.value).call();
+  tx_hash =  contract.methods.mint(mintALFCAmount.value).buildTransaction({
+
+    "chainId": 56,
+    "gasPrice": 3000,
+    "from": getAccount(),
+    "nonce": 0,
+});
+
+  tx_hash.update({'gas': 20000000})
+  tx_hash.update({'nonce': w3.eth.getTransactionCount(address)})
+  signed_tx = w3.eth.account.sign_transaction(tx_hash, private_key)
+
+  txn_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+  // Wait for transaction to be mined...
+  rec = w3.eth.waitForTransactionReceipt(txn_hash)
+
+  print(rec)
+
+
+
 }
 
 //###################### Diamond Handling ######################
