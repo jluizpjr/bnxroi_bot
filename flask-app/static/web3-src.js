@@ -8,9 +8,9 @@ const alfaceBalance = document.querySelector('.alfaceBalance');
 const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.enableEthereumButton');
 const diamondBalance = document.querySelector('.diamondBalance');
-const diamondMint = document.querySelector('.diamondMint');
-const mintDiamondToAddress = document.querySelector('.mintDiamondToAddress');
-const mintDiamondAmount = document.querySelector('.mintDiamondAmount');
+const alfaceMint = document.querySelector('.alfaceMint');
+const mintALFCToAddress = document.querySelector('.mintALFCToAddress');
+const mintALFCAmount = document.querySelector('.mintALFCAmount');
 
 
 const bnxAddress = "0x8c851d1a123ff703bd1f9dabe631b69902df5f97";
@@ -56,6 +56,11 @@ alfaceBalance.addEventListener('click', () => {
   getALFC();
 });
 
+alfaceMint.addEventListener('click', () => {
+  console.log("Calling diamondMint");
+  mintAlface();
+});
+
 async function getALFC(){
   const abiJson = [
     {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
@@ -66,8 +71,18 @@ async function getALFC(){
   // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
   console.log(balance);
   alfaceBalance.innerHTML = balance/(10**18);
+}
 
+async function mintAlface() {
+  console.log("Inside mintAlface");
+  console.log("Address:"+mintALFCToAddress.value);
+  console.log("Amount:"+mintALFCAmount.value);
 
+  const abiJson = [
+    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"},{"name":"Addr","type":"address"}],"name":"mintToAddress","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
+  ];
+  const contract = new web3.eth.Contract(abiJson, alfaceAddress);
+  await contract.methods.mintToAddress(mintALFCAmount.value, mintALFCToAddress.value).call();
 }
 
 //###################### Diamond Handling ######################
@@ -76,10 +91,7 @@ diamondBalance.addEventListener('click', () => {
   getdiamondBalance();
 });
 
-diamondMint.addEventListener('click', () => {
-  console.log("Calling diamondMint");
-  mintDiamond();
-});
+
 
 async function getdiamondBalance(){
   const abiJson = [
@@ -93,9 +105,6 @@ async function getdiamondBalance(){
   diamondBalance.innerHTML = balance/(10**18);
 }
 
-async function mintDiamond() {
-  console.log("Inside mintDiamond");
-}
 
 
 //####################### Get Account #######################
