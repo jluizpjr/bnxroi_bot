@@ -14,7 +14,6 @@ const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.enableEthereumButton');
 const diamondBalance = document.querySelector('.diamondBalance');
 const alfaceMint = document.querySelector('.alfaceMint');
-const mintALFCToAddress = document.querySelector('.mintALFCToAddress');
 const mintALFCAmount = document.querySelector('.mintALFCAmount');
 
 
@@ -80,16 +79,14 @@ async function getALFC(){
 
 async function mintAlface() {
   console.log("Inside mintAlface");
-  console.log("Address:"+mintALFCToAddress.value);
   console.log("Amount:"+mintALFCAmount.value);
 
   const abiJson = [
     {"constant":true,"inputs":[{"name":"Amount","type":"uint256"}],"name":"mint","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
-//    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"},{"name":"Addr","type":"address"}],"name":"mintToAddress","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
   ];
   const contract = new web3.eth.Contract(abiJson, alfaceAddress);
-
-  await contract.methods.mint(mintALFCAmount.value).send({ "from":await getAccount()});
+  const gas = await contract.methods.mint(mintALFCAmount.value).send({ "from":await getAccount()});
+  console.log("Gas="+gas)
 
 }
 
