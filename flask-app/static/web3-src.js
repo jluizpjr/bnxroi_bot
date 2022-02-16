@@ -86,15 +86,22 @@ async function DiamondBalance(){
 const getAlfaceBalanceButton = document.querySelector('.getAlfaceBalanceButton');
 const alfaceMintButton = document.querySelector('.alfaceMintButton');
 const mintALFCAmount = document.querySelector('.mintALFCAmount');
+const alfaceBurnButton = document.querySelector('.alfaceBurnButton');
+const burnALFCAmount = document.querySelector('.burnALFCAmount');
 
 getAlfaceBalanceButton.addEventListener('click', () => {
   console.log("Calling getALFC")
   AlfaceBalance();
 });
 
-alfaceMint.addEventListener('click', () => {
-  console.log("Calling diamondMint");
+alfaceMintButton.addEventListener('click', () => {
+  console.log("Calling alfaceMint");
   mintAlface();
+});
+
+alfaceBurnButton.addEventListener('click', () => {
+  console.log("Calling alfaceMint");
+  burnAlface();
 });
 
 async function AlfaceBalance(){
@@ -121,6 +128,20 @@ async function mintAlface() {
   console.log("Gas="+gas)
 
 }
+
+async function burnAlface() {
+  console.log("Inside burnAlface");
+  console.log("Amount:"+burnALFCAmount.value);
+
+  const abiJson = [
+    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"}],"name":"burn","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
+  ];
+  const contract = new web3.eth.Contract(abiJson, alfaceAddress);
+  const gas = await contract.methods.burn(burnALFCAmount.value).send({ "from":await getAccount()});
+  console.log("Gas="+gas)
+
+}
+
 
 
 
