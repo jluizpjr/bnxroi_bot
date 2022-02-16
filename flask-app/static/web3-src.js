@@ -21,11 +21,16 @@ enableMetaMaskButton.addEventListener('click', () => {
 });
 
 async function getAccount() {
-  const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-  const account = accounts[0];
-  enableMetaMaskButton.disabled = true;
-  showAccount.innerHTML = "Wallet=" + account;
-  return account;
+  try {
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    enableMetaMaskButton.disabled = true;
+    showAccount.innerHTML = "Wallet=" + account;
+    return account;
+  }
+  catch (err) {
+    alert(err.message);
+  };
 }
 
 //####################### Get Current Block ################
