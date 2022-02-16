@@ -12,8 +12,8 @@ const alfaceAddress = "0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd"
 
 
 //####################### Get Account #######################
-const enableMetaMaskButton = document.querySelector('.enableMetaMaskButton');
-const showAccount = document.querySelector('.walletAddress');
+const enableMetaMaskButton = document.getElementById('enableMetaMaskButton');
+const showAccount = document.getElementById('walletAddress');
 
 enableMetaMaskButton.addEventListener('click', () => {
   console.log("Enabling MetaMask")
@@ -29,21 +29,23 @@ async function getAccount() {
 }
 
 //####################### Get Current Block ################
-const getCurrentBlockButton = document.querySelector('.getCurrentBlockButton');
+const getCurrentBlockButton = document.getElementById('getCurrentBlockButton');
+const currentBlock = document.getElementById('currentBlock');
 
 getCurrentBlockButton.addEventListener('click', () => {
   console.log("getCurrentBlock")
+  currentBlock.innerHTML = "Loading....";
   getBlockNumber();
 });
 
 async function getBlockNumber() {
   const currentBlockNumber = await web3.eth.getBlockNumber()
-  console.log(currentBlockNumber)
+  console.log(currentBlockNumber);
   currentBlock.innerHTML = currentBlockNumber;
   return currentBlockNumber
 }
 //###################### BNX Handling ######################
-const getBNXBalanceButton = document.querySelector('.getBNXBalanceButton');
+const getBNXBalanceButton = document.getElementById('getBNXBalanceButton');
 
 getBNXBalanceButton.addEventListener('click', () => {
   console.log("Calling getBNXBalance")
@@ -63,7 +65,8 @@ async function BNXBalance(){
 }
 
 //###################### Diamond Handling ######################
-const getDiamondBalanceButton = document.querySelector('.getDiamondBalanceButton');
+const getDiamondBalanceButton = document.getElementById('getDiamondBalanceButton');
+const diamondBalance = document.getElementById('diamondBalance');
 
 getDiamondBalanceButton.addEventListener('click', () => {
   console.log("Calling diamondBalance");
@@ -83,11 +86,11 @@ async function DiamondBalance(){
 }
 
 //###################### ALFC Handling ######################
-const getAlfaceBalanceButton = document.querySelector('.getAlfaceBalanceButton');
-const alfaceMintButton = document.querySelector('.alfaceMintButton');
-const mintALFCAmount = document.querySelector('.mintALFCAmount');
-const alfaceBurnButton = document.querySelector('.alfaceBurnButton');
-const burnALFCAmount = document.querySelector('.burnALFCAmount');
+const getAlfaceBalanceButton = document.getElementById('getAlfaceBalanceButton');
+const alfaceMintButton = document.getElementById('alfaceMintButton');
+const mintALFCAmount = document.getElementById('mintALFCAmount');
+const alfaceBurnButton = document.getElementById('alfaceBurnButton');
+const burnALFCAmount = document.getElementById('burnALFCAmount');
 
 getAlfaceBalanceButton.addEventListener('click', () => {
   console.log("Calling getALFC")

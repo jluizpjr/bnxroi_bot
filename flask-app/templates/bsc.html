@@ -1,35 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
     <h3>{% block title %} BSC Functions {% endblock %}</h3>
     <p></p>
-    <button class="enableMetaMaskButton" id="enableMetaMaskButton">Enable MetaMask</button>
-    <div class="walletAddress" id="walletAddress">Wallet not connected</div><hr>
+    <button id="enableMetaMaskButton" type="button" class="btn btn-primary">Enable MetaMask</button>
+    <div class="walletAddress" id="walletAddress">Wallet not connected</div>
+    <hr>
     <p></p>
-    <button class="getCurrentBlockButton" id="getCurrentBlockButton">Get Current BSC Block</button>
-    <div class="currentBlock" id="currentBlock">N/A</div><hr>
+    <button id="getCurrentBlockButton" class="btn btn-primary">Get Current BSC Block</button>
+    <div class="currentBlock" id="currentBlock">N/A</div>
+    <hr>
     <p></p>
-    <button class="getBNXBalanceButton" id="getBNXBalanceButton">Get BNX Balance</button>
-    <div class="bnxBalance" id="bnxBalance">N/A</div><hr>
+    <button id="getBNXBalanceButton" class="btn btn-primary">Get BNX Balance</button>
+    <div class="bnxBalance" id="bnxBalance">N/A</div>
+    <hr>
     <p></p>
-    <button class="getDiamondBalanceButton" id="getDiamondBalanceButton">Get Diamond Balance</button>
-    <div class="diamondBalance" id="diamondBalance">N/A</div><hr>
+    <button id="getDiamondBalanceButton" class="btn btn-primary">Get Diamond Balance</button>
+    <div class="diamondBalance" id="diamondBalance">N/A</div>
+    <hr>
     <p></p>
-    Contract: 0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd 
+    Contract: 0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd
     <p></p>
-    <button class="getAlfaceBalanceButton" id="getAlfaceBalanceButton">Get Alface Balance</button>    
+    <button id="getAlfaceBalanceButton" class="btn btn-primary">Get Alface Balance</button>
     <div class="alfaceBalance" id="alfaceBalance">N/A</div>
     <p></p>
-    <button class="alfaceMintButton" id="alfaceMintButton">Mint ALFC</button>
+    <button id="alfaceMintButton" class="btn btn-primary">Mint ALFC</button>
     <p></p>
     Amount: <input class="mintALFCAmount" id="mintALFCAmount"><br>
     <p></p>
-    <button class="alfaceBurnButton" id="alfaceBurnButton">Burn ALFC</button>
+    <button id="alfaceBurnButton" class="btn btn-primary">Burn ALFC</button>
     <p></p>
     Amount: <input class="burnALFCAmount" id="burnALFCAmount"><br>
     <script>
         var usedLaterScript = document.createElement('script');
         usedLaterScript.src = '/static/bundle.js';
         document.body.appendChild(usedLaterScript);
-    </script>   
+    </script>
+</div>
 {% endblock %}
