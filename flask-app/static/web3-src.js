@@ -126,7 +126,6 @@ async function mintAlface() {
   const contract = new web3.eth.Contract(abiJson, alfaceAddress);
   const gas = await contract.methods.mint(mintALFCAmount.value).send({ "from":await getAccount()});
   console.log("Gas="+gas)
-
 }
 
 async function burnAlface() {
@@ -139,7 +138,6 @@ async function burnAlface() {
   const contract = new web3.eth.Contract(abiJson, alfaceAddress);
   const gas = await contract.methods.burn(burnALFCAmount.value).send({ "from":await getAccount()});
   console.log("Gas="+gas)
-
 }
 
 
