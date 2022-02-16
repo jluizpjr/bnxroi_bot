@@ -52,16 +52,16 @@ getBNXBalanceButton.addEventListener('click', () => {
   BNXBalance();
 });
 
-async function BNXBalance(){
+async function BNXBalance() {
   const abiJson = [
-    {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
+    { "constant": true, "inputs": [{ "name": "who", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" },
   ];
-  
+
   const contract = new web3.eth.Contract(abiJson, bnxAddress);
   const balance = await contract.methods.balanceOf(await getAccount()).call();
   // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
   console.log(balance);
-  bnxBalance.innerHTML = balance/(10**18);
+  bnxBalance.innerHTML = balance / (10 ** 18);
 }
 
 //###################### Diamond Handling ######################
@@ -73,16 +73,16 @@ getDiamondBalanceButton.addEventListener('click', () => {
   DiamondBalance();
 });
 
-async function DiamondBalance(){
+async function DiamondBalance() {
   const abiJson = [
-    {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
+    { "constant": true, "inputs": [{ "name": "who", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" },
   ];
-  
+
   const contract = new web3.eth.Contract(abiJson, diamondAddress);
   const balance = await contract.methods.balanceOf(await getAccount()).call();
   // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
   console.log(balance);
-  diamondBalance.innerHTML = balance/(10**18);
+  diamondBalance.innerHTML = balance / (10 ** 18);
 }
 
 //###################### ALFC Handling ######################
@@ -107,46 +107,46 @@ alfaceBurnButton.addEventListener('click', () => {
   burnAlface();
 });
 
-async function AlfaceBalance(){
+async function AlfaceBalance() {
   const abiJson = [
-    {"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
+    { "constant": true, "inputs": [{ "name": "who", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" },
   ];
-  
+
   const contract = new web3.eth.Contract(abiJson, alfaceAddress);
   const balance = await contract.methods.balanceOf(await getAccount()).call();
   // note that this number includes the decimal places (in case of BUSD, that's 18 decimal places)
   console.log(balance);
-  alfaceBalance.innerHTML = balance/(10**18);
+  alfaceBalance.innerHTML = balance / (10 ** 18);
 }
 
 async function mintAlface() {
   console.log("Inside mintAlface");
-  console.log("Amount:"+mintALFCAmount.value);
+  console.log("Amount:" + mintALFCAmount.value);
 
   const abiJson = [
-    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"}],"name":"mint","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
+    { "constant": true, "inputs": [{ "name": "Amount", "type": "uint256" }], "name": "mint", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" },
   ];
-  const contract = new web3.eth.Contract(abiJson, alfaceAddress);
-  const gas = await contract.methods.mint(mintALFCAmount.value).send({ "from":await getAccount()});
-  console.log("Gas="+gas)
+  try {
+    const contract = new web3.eth.Contract(abiJson, alfaceAddress);
+    const gas = await contract.methods.mint(mintALFCAmount.value).send({ "from": await getAccount() });
+    console.log("Gas=" + gas)
+  } catch (err) {
+    alert(err.message);
+  };
 }
 
 async function burnAlface() {
   console.log("Inside burnAlface");
-  console.log("Amount:"+burnALFCAmount.value);
-
-  const abiJson = [
-    {"constant":true,"inputs":[{"name":"Amount","type":"uint256"}],"name":"burn","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},
-  ];
-  const contract = new web3.eth.Contract(abiJson, alfaceAddress);
-  const gas = await contract.methods.burn(burnALFCAmount.value).send({ "from":await getAccount()});
-  console.log("Gas="+gas)
+  console.log("Amount:" + burnALFCAmount.value);
+  try {
+    const abiJson = [
+      { "constant": true, "inputs": [{ "name": "Amount", "type": "uint256" }], "name": "burn", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" },
+    ];
+    const contract = new web3.eth.Contract(abiJson, alfaceAddress);
+    const gas = await contract.methods.burn(burnALFCAmount.value).send({ "from": await getAccount() });
+    console.log("Gas=" + gas)
+  }
+  catch (err) {
+    alert(err.message);
+  };
 }
-
-
-
-
-
-
-
-

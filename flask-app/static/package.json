@@ -2024,6 +2024,7 @@
       "resolved": "https://registry.npmjs.org/isurl/-/isurl-1.0.0.tgz",
       "version": "1.0.0"
     },
+    "jquery": "^3.6.0",
     "js-sha3": {
       "integrity": "sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==",
       "resolved": "https://registry.npmjs.org/js-sha3/-/js-sha3-0.8.0.tgz",
