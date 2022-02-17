@@ -10,7 +10,6 @@ const bnxAddress = "0x8c851d1a123ff703bd1f9dabe631b69902df5f97";
 const diamondAddress = "0x5f16128A0A10fF02AB645A81d9E6589D1c599850";
 const alfaceAddress = "0xfe360bb3421af9e4a142fe2adbdfd84ea22860dd"
 
-
 //####################### Get Account #######################
 const enableMetaMaskButton = document.getElementById('enableMetaMaskButton');
 const showAccount = document.getElementById('walletAddress');
