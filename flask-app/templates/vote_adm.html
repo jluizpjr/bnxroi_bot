@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{{ url_for('vote_adm') }}" method=post>
+    <div class="container">
+        <h3>{% block title %} BSC Functions {% endblock %}</h3>
+        <p></p>
+        <button id="enableMetaMaskButton" type="button" class="btn btn-primary">Enable MetaMask</button>
+        <div class="walletAddress" id="walletAddress">Wallet not connected</div>
+        <hr>
+
+        {% for volunteer in volunteers %}
+
+        <p>Name: <strong>{{ volunteer['name'] }}</strong></p>
+
+        {% endfor %}
+        Name<br>
+        <input type = "text" name = "name" /><br>
+        <input type = "submit" value = "submit" class="btn btn-primary"/><br>
+        <script>
+            var usedLaterScript = document.createElement('script');
+            usedLaterScript.src = '/static/bundle.js';
+            document.body.appendChild(usedLaterScript);
+        </script>
+    </div>
+    
+</form>
+{% endblock %}
