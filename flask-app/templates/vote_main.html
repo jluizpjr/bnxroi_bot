@@ -5,28 +5,45 @@
     <div class="container">
         <h3>{% block title %} BSC Functions {% endblock %}</h3>
         <p></p>
-        <button id="enableMetaMaskButton" type="button" class="btn btn-primary">Enable MetaMask</button>
+        <script type="text/javascript">
+            function enableVoteButton() {
+                document.getElementById("voteButton").disabled = false;
+            }
+        </script>
+        <button id="enableMetaMaskButton" type="button" class="btn btn-primary" onclick="enableVoteButton()">Enable MetaMask</button>
         <div class="walletAddress" id="walletAddress">Wallet not connected</div>
         <hr>
 
         <div class="form-check">
             {% for volunteer in volunteers %}
 
-            <input class="form-check-input" type="checkbox" value="{{ volunteer['name'] }}" id="{{ volunteer['name'] }}" name="checkbox">
+            <input class="form-check-input" type="checkbox" value="{{ volunteer['name'] }}" id="{{ volunteer['name'] }}"
+                name="checkbox">
             <label class="form-check-label" for="flexCheckDefault">
-                {{ volunteer['name'] }} {{ volunteer['votes'] }} 
+                {{ volunteer['name'] }} {{ volunteer['votes'] }}
             </label>
             <br>
             {% endfor %}
         </div>
 
-        <input type="submit" name="submit" value="Vote" class="btn btn-primary"/><br>
+        <script type="text/javascript">
+            function getMM() {
+                var MM_text = document.getElementById("walletAddress").textContent;
+                var MM_temp = MM_text.split("=");
+                var MM = MM_temp[1];
+                console.log(MM);
+                document.getElementById("wallet_Address").value = MM;
+            }
+        </script>
+
+        <input type="hidden" name="wallet_Address" value="1" id="wallet_Address">
+        <input type="submit" name="submit" value="Vote" class="btn btn-primary" onclick="getMM()" disabled id="voteButton"/><br>
         <script>
             var usedLaterScript = document.createElement('script');
             usedLaterScript.src = '/static/bundle.js';
             document.body.appendChild(usedLaterScript);
         </script>
     </div>
-    
+
 </form>
 {% endblock %}
