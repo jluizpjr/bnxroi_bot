@@ -193,8 +193,8 @@ def send_welcome(message):
         "\nBTC     \t*${:,.2f}".format(btc_usd) + "*" +
         "\nBNB     \t*${:,.2f}".format(bnb_usd) + "*" +
         "\nBNX     \t*${:,.2f}".format(bnx_usd) + "*" +
-        "\nGold    \t*${:,.6f}".format(gold_usd) + "* Ratio *" + gr + "*" +
-        "\nCrystal \t*${:,.6f}".format(crystal_usd) + "* Ratio *" + cr + "*" 
+        "\nGold    \t*${:,.6f}".format(gold_usd) + "*" +
+        "\nCrystal \t*${:,.6f}".format(crystal_usd) + "*" 
         ,parse_mode = 'Markdown'
         )    
 
