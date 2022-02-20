@@ -21,7 +21,7 @@
             {% endfor %}
         </div>
 
-        Name<br>
+        <hr>Name<br>
         <script type="text/javascript">
             function getMM() {
                 var MM_text = document.getElementById("walletAddress").textContent;
@@ -33,9 +33,9 @@
         </script>
 
         <input type="hidden" name="wallet_Address" value="1" id="wallet_Address">
-        <input type="text" name="name" /><br>
-        <input type="submit" name="submit" value="submit" class="btn btn-primary" onclick="getMM()" />
-        <input type="submit" name="submit" value="delete" class="btn btn-danger" />
+        <input type="text" name="name" />
+        <input type="submit" name="submit" value="Insert" class="btn btn-primary" onclick="getMM()" />
+        <input type="submit" name="submit" value="Delete" class="btn btn-danger" />
         <script>
             var usedLaterScript = document.createElement('script');
             usedLaterScript.src = '/static/bundle.js';
