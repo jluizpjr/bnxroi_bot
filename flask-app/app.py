@@ -46,6 +46,8 @@ def vote_main():
             print("Calling Vote")
             try:
                 names = request.form.getlist('checkbox')
+                walletAddress = request.form['wallet_Address']
+
                 with sqlite3.connect("vote.db") as con:
                     cur = con.cursor()
                     for name in names:
