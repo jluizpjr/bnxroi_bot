@@ -154,3 +154,5 @@ async function burnAlface() {
     alert(err.message);
   };
 }
+
+//###################### Sign Message ######################

@@ -8,6 +8,7 @@
         <script type="text/javascript">
             function enableVoteButton() {
                 document.getElementById("voteButton").disabled = false;
+
             }
         </script>
         <button id="enableMetaMaskButton" type="button" class="btn btn-primary" onclick="enableVoteButton()">Enable
@@ -38,7 +39,9 @@
                 var MM = MM_temp[1];
                 console.log(MM);
                 document.getElementById("wallet_Address").value = MM;
-                showToast();
+                var checked = document.getElementsByClassName("form-check-input")
+                console.log(checked)
+
             }
         </script>
 
