@@ -111,7 +111,7 @@ def send_welcome(message):
         bot.reply_to(message, "A cotação do BNX agora é = *${:,.4f}".format(bnx_usd) + "*"
         ,parse_mode = 'Markdown'
         )
-
+"""
 @bot.message_handler(commands=['dgindex'])
 def send_welcome(message):
 
@@ -156,6 +156,8 @@ def send_welcome(message):
         "\nCristal Lv3: custo: *{:,.2f}*".format(331*crystal_usd) +" USD - retorno (3 BNX): *{:,.2f}* USD".format(bnx_usd*3*1.5) 
         ,parse_mode = 'Markdown'
         )    
+
+"""
 
 @bot.message_handler(commands=['coins'])
 def send_welcome(message):
