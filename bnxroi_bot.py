@@ -143,17 +143,12 @@ def send_welcome(message):
 
         if(gold_usd < 0.004):
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
-            "\nPreço do CoinMarketCap!!" +
-            "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *" +
-            str(gold_mining_rate[truncate(gold_usd,4)]) + "*" +
-            "\nO mining ratio só é atualizado às 9am BRT"
+            "\nPreço do CoinMarketCap!!" 
             ,parse_mode = 'Markdown'
             )    
         else:
             bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
-            "\nPreço do CoinMarketCap!!" +
-            "\nATENÇÃO: Com a cotação atual do gold o mining ratio é *100%*" +
-            "\nO mining ratio só é atualizado às 9am BRT"
+            "\nPreço do CoinMarketCap!!" 
             ,parse_mode = 'Markdown'
             )         
 
@@ -262,7 +257,7 @@ def send_welcome(message):
             ,parse_mode = 'Markdown') 
 
 def moon_phases(value):
-    moon_phases = ["\U0001F311", "\U0001F312", "\U0001F313", "\U0001F314", "\U0001F315"]
+    moon_phases = ["\U0001F311", "\U0001F318", "\U0001F317", "\U0001F316", "\U0001F315"]
     return moon_phases[value-1]
 
 
