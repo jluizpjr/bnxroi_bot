@@ -2,6 +2,8 @@ import telebot
 import requests
 import random
 import os
+import json
+import math
 import draw
 import contest
 import ama
@@ -26,7 +28,8 @@ bot.set_my_commands(
         telebot.types.BotCommand("bnx", "cotação do BNX"),                
         telebot.types.BotCommand("gold", "cotação do GOLD"),         
         telebot.types.BotCommand("crystal", "cotação do Crystal"),    
-        telebot.types.BotCommand("ajudasorteio", "submenu de sorteio")
+        telebot.types.BotCommand("ajudasorteio", "submenu de sorteio"),
+        telebot.types.BotCommand("wom", "retorna o WOM das DGs")
     ],
 )
 
@@ -226,7 +229,41 @@ def send_welcome(message):
         bot.reply_to(message, "Consultando os astros..... consultando os exús.... " +
             "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(1,10)))    
 
+@bot.message_handler(commands=['wom'])
+def send_welcome(message):
 
+        levels = [1,2,3,4,5,6]
+        headers = { 
+            'Accept' : '*/*', 
+            'Content-Type' : 'application/x-www-form-urlencoded', 
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'en-US,en;q=0.8',
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'
+        }
+        
+        resp = [0]
+
+        for level in levels:
+
+            payload = {'Id':math.ceil(level/3), 'DungeonLv':level, 'lang':'en'}
+            #print(payload)
+            resp.append(requests.post("https://game.binaryx.pro/v1/dungeon/getlvratio", data=payload, headers=headers).json())
+            #print(resp[level])
+
+
+        bot.reply_to(message, "*Wealth of Monsters:* " +
+            "\nDG LV1 = " + moon_phases(resp[1]["data"]["lv_ratio_point"]) +
+            "\nDG LV2 = " + moon_phases(resp[2]["data"]["lv_ratio_point"]) + 
+            "\nDG LV3 = " + moon_phases(resp[3]["data"]["lv_ratio_point"]) + 
+            "\nDG LV4 = " + moon_phases(resp[4]["data"]["lv_ratio_point"]) + 
+            "\nDG LV5 = " + moon_phases(resp[5]["data"]["lv_ratio_point"]) + 
+            "\nDG LV6 = " + moon_phases(resp[6]["data"]["lv_ratio_point"]) +
+            "\nQuanto maior a lua, melhor para fazer DG!!!"
+            ,parse_mode = 'Markdown') 
+
+def moon_phases(value):
+    moon_phases = ["\U0001F311", "\U0001F312", "\U0001F313", "\U0001F314", "\U0001F315"]
+    return moon_phases[value-1]
 
 
 #####################################################################################
