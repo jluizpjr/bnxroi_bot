@@ -136,6 +136,25 @@ def send_welcome(message):
         ,parse_mode = 'Markdown'
         )    
 
+@bot.message_handler(commands=['testcoins'])
+def send_welcome(message):
+        cmc_data = cmc.cryptocurrency_quotes_latest(id='1,1839,9891,12082,17356') #btc id 1
+        btc_usd = cmc_data.data['1']['quote']['USD']['price']
+        bnb_usd = cmc_data.data['1839']['quote']['USD']['price']
+        bnx_usd = cmc_data.data['9891']['quote']['USD']['price']
+        gold_usd = cmc_data.data['12082']['quote']['USD']['price']            
+        crystal_usd = cmc_data.data['17356']['quote']['USD']['price']   
+
+        bot.reply_to(message, "A cotação das principais moedas é:" +
+        "\nBTC     \t*${:,.2f}".format(btc_usd) + "*" +
+        "\nBNB     \t*${:,.2f}".format(bnb_usd) + "*" +
+        "\nBNX     \t*${:,.2f}".format(bnx_usd) + "*" +
+        "\nGold    \t*${:,.6f}".format(gold_usd) + "*" +
+        "\nCrystal \t*${:,.6f}".format(crystal_usd) + "*" 
+        ,parse_mode = 'Markdown'
+        )    
+
+
 @bot.message_handler(commands=['gold2'])
 def send_welcome(message):
         gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
