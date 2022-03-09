@@ -91,52 +91,9 @@ def send_welcome(message):
         bnx_usd = bnx.data['9891']['quote']['USD']['price']
         bot.reply_to(message, "A cotação do BNX agora é = *${:,.4f}".format(bnx_usd) + "*"
         ,parse_mode = 'Markdown'
-        )
+        )   
 
 @bot.message_handler(commands=['coins'])
-def send_welcome(message):
-
-
-#        btc = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c").json()
-#        btc_usd = round(float(btc["data"]["price"]),6)
-
-#        bnb = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c").json()
-#        bnb_usd = round(float(bnb["data"]["price"]),6)
-
-#        bnx = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97").json()
-#        bnx_usd = round(float(bnx["data"]["price"]),6)
-
-#        gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
-#        gold_usd = round(float(gold["data"]["price"]),6)
- 
-#        crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
-#        crystal_usd = round(float(crystal["data"]["price"]),6)
-
-        btc = cmc.cryptocurrency_quotes_latest(id='1') #btc id 1
-        btc_usd = btc.data['1']['quote']['USD']['price']
-
-        bnb = cmc.cryptocurrency_quotes_latest(id='1839') #bnb id 1839
-        bnb_usd = bnb.data['1839']['quote']['USD']['price']
-
-        bnx = cmc.cryptocurrency_quotes_latest(id='9891') #bnx id 9891
-        bnx_usd = bnx.data['9891']['quote']['USD']['price']
-
-        gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
-        gold_usd = gold.data['12082']['quote']['USD']['price']            
-
-        crystal = cmc.cryptocurrency_quotes_latest(id='17356') #gold id 17356
-        crystal_usd = crystal.data['17356']['quote']['USD']['price']   
-
-        bot.reply_to(message, "A cotação das principais moedas é:" +
-        "\nBTC     \t*${:,.2f}".format(btc_usd) + "*" +
-        "\nBNB     \t*${:,.2f}".format(bnb_usd) + "*" +
-        "\nBNX     \t*${:,.2f}".format(bnx_usd) + "*" +
-        "\nGold    \t*${:,.6f}".format(gold_usd) + "*" +
-        "\nCrystal \t*${:,.6f}".format(crystal_usd) + "*" 
-        ,parse_mode = 'Markdown'
-        )    
-
-@bot.message_handler(commands=['testcoins'])
 def send_welcome(message):
         cmc_data = cmc.cryptocurrency_quotes_latest(id='1,1839,9891,12082,17356') #btc id 1
         btc_usd = cmc_data.data['1']['quote']['USD']['price']
