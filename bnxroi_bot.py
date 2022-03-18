@@ -203,7 +203,7 @@ def send_welcome(message):
             "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(1,10)))    
 
 @bot.message_handler(commands=['wom'])
-def send_welcome(message):
+def wom(message):
 
         levels = [1,2,3,4,5,6]
         headers = { 
@@ -216,15 +216,11 @@ def send_welcome(message):
         
         resp = [0]
 
-        for level in levels:
-
-            payload = {'Id':math.ceil(level/3), 'DungeonLv':level, 'lang':'en'}
-            #print(payload)
-            resp.append(requests.post("https://game.binaryx.pro/v1/dungeon/getlvratio", data=payload, headers=headers).json())
-            #print(resp[level])
-
-
-        bot.reply_to(message, "*Wealth of Monsters:* " +
+        try: 
+            for level in levels:
+                payload = {'Id':math.ceil(level/3), 'DungeonLv':level, 'lang':'en'}
+                resp.append(requests.post("https://game.binaryx.pro/v1/dungeon/getlvratio", data=payload, headers=headers).json())
+            bot.reply_to(message, "*Wealth of Monsters:* " +
             "\nDG LV1 = " + moon_phases(resp[1]["data"]["lv_ratio_point"]) +
             "\nDG LV2 = " + moon_phases(resp[2]["data"]["lv_ratio_point"]) + 
             "\nDG LV3 = " + moon_phases(resp[3]["data"]["lv_ratio_point"]) + 
@@ -233,6 +229,10 @@ def send_welcome(message):
             "\nDG LV6 = " + moon_phases(resp[6]["data"]["lv_ratio_point"]) +
             "\nQuanto maior a lua, melhor para fazer DG!!!"
             ,parse_mode = 'Markdown') 
+
+        except: 
+            wom(message)
+
 
 def moon_phases(value):
     moon_phases = ["\U0001F311", "\U0001F318", "\U0001F317", "\U0001F316", "\U0001F315"]
