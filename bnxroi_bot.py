@@ -239,10 +239,8 @@ def moon_phases(value):
 
 @bot.message_handler(commands=['womtable'])
 def send_welcome(message):
-    print("Before Womtable")
     womtable.womtable()
-    print("After Womtable")
-    bot.send_photo(message.chat.id, open('../binaryx_bot/table.png', 'rb'))
+    bot.send_photo(message.chat.id, open('table.png', 'rb'))
 
 #####################################################################################
 # Draw Section
