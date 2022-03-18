@@ -6,6 +6,8 @@ import json
 import math
 import draw
 import contest
+import womtable
+import womtable
 import ama
 import time, threading, schedule
 from utils import truncate
@@ -236,6 +238,12 @@ def moon_phases(value):
     moon_phases = ["\U0001F311", "\U0001F318", "\U0001F317", "\U0001F316", "\U0001F315"]
     return moon_phases[value-1]
 
+@bot.message_handler(commands=['womtable'])
+def send_welcome(message):
+    print("Before Womtable")
+    womtable.womtable()
+    print("After Womtable")
+    bot.send_photo(message.chat.id, open('../binaryx_bot/table.png', 'rb'))
 
 #####################################################################################
 # Draw Section
