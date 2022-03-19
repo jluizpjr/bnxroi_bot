@@ -64,9 +64,9 @@ def newTicket(message):
             with open(str("draw"+str(message.chat.id)+".json"), "r+") as f:
                 draw_dict = json.load(f)
                 for key in draw_dict["users"]:
-                    if(key==user):
+                    if(key[0]==user):
                         return "Ticket already issued for user"
-                draw_dict['users'].append(user)
+                draw_dict['users'].append([user,message.from_user.id])
                 f.seek(0,0)
                 print(draw_dict)
                 json.dump(draw_dict, f)
@@ -90,7 +90,7 @@ def listParticipants(message):
             lista = ""
             i = 1
             for key in draw_dict["users"]:
-                lista += str(i) + " - " + key + "\n"
+                lista += str(i) + " - " + key[0] + " UID="+str(key[1]) +"\n"
                 i += 1
             f.close()
             return lista
@@ -110,7 +110,7 @@ def draw(message):
                 return "This raffle needs at least 2 participants"
             winner = random.randrange(0,len(draw_dict["users"]))
             f.close()
-            return "The winner is " + draw_dict["users"][winner]
+            return "The winner is " + draw_dict["users"][winner][0] + " UID=" + str(draw_dict["users"][winner][1])
     except Exception as e:
         print(f"Unexpected {e=}, {type(e)=}")
         return "There is no ongoing raffle" 
