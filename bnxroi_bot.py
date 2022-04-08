@@ -1,13 +1,9 @@
 import telebot
 import requests
-import random
 import os
-import json
 import math
 import draw
-import contest
 import womtable
-import ama
 import time, threading, schedule
 from utils import truncate
 from telebot import types
@@ -34,35 +30,12 @@ bot.set_my_commands(
     ],
 )
 
-whats_up = [
-    "dungeon level 2 deu profit hoje", 
-    "perdi uma dungeon por causa da bsc", 
-    "o que salvou a dungeon foi o item que dropou", 
-    "não sei se faço saque ou reinvisto", 
-    "esperando preço do bnx baixar pra colocar mais em staking",
-    "procurando item no market pra matar o senator",
-    "fazendo a limpa nos mão de alface", 
-    "só de olho no grupo esperando os sorteios",
-    "esperando pix cair na binance",
-    "lá vou eu reinvestir no jogo",
-    "calma, to lendo os fixados"
-]
-
 # SimpleCustomFilter is for boolean values, such as is_admin=True
 class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
     key='is_admin'
     @staticmethod
     def check(message: telebot.types.Message):
         return bot.get_chat_member(message.chat.id,message.from_user.id).status in ['administrator','creator']
-
-
-@bot.message_handler(commands=['start', 'help', 'ajuda'])
-def send_welcome(message):
-        schedule.every(3600).seconds.do(send_bora_s, message.chat.id).tag(message.chat.id)
-        bot.reply_to(message, "Bem vindo" +
-        "\n   Digite /bnx para ver a cotação do BNX" +
-        "\n   Digite /gold para ver a cotação do GOLD"
-        )
 
 
 @bot.message_handler(commands=['discord'])
@@ -74,16 +47,6 @@ def send_welcome(message):
 @bot.message_handler(commands=['fixados'])
 def send_welcome(message):
         bot.reply_to(message.reply_to_message, "👆🏻Isso aí já foi respondido e está nos fixados do canal👆🏻"
-        )
-
-@bot.message_handler(commands=['bora'])
-def send_bora(message):
-        bot.reply_to(message, whats_up[random.randrange(0, len(whats_up))]
-        )
-
-def send_bora_s(message_chat_id) -> None:
-        print("Random message time")
-        bot.send_message(message_chat_id, whats_up[random.randrange(0, len(whats_up))]
         )
 
 @bot.message_handler(commands=['bnx'])
@@ -113,22 +76,6 @@ def send_welcome(message):
         )    
 
 
-@bot.message_handler(commands=['gold2'])
-def send_welcome(message):
-        gold = cmc.cryptocurrency_quotes_latest(id='12082') #gold id 12082
-        gold_usd = gold.data['12082']['quote']['USD']['price']
-
-        if(gold_usd < 0.004):
-            bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
-            "\nPreço do CoinMarketCap!!" 
-            ,parse_mode = 'Markdown'
-            )    
-        else:
-            bot.reply_to(message, "A cotação do Gold agora é *${:,.6f}".format(gold_usd) + "*" +
-            "\nPreço do CoinMarketCap!!" 
-            ,parse_mode = 'Markdown'
-            )         
-
 @bot.message_handler(commands=['gold'])
 def send_welcome(message):
 
@@ -140,20 +87,6 @@ def send_welcome(message):
         "\nPreço do Pancakeswap!!"
         ,parse_mode = 'Markdown'
         )    
-
-
-@bot.message_handler(commands=['crystal'])
-def send_welcome(message):
-
-        crystal = requests.get("https://api.pancakeswap.info/api/v2/tokens/0x6AD7e691f1d2723523e70751f82052A8A2C47726").json()
-        crystal_usd = round(float(crystal["data"]["price"]),6)
-
-
-        bot.reply_to(message, "A cotação do Crystal agora é *${:,.4f}".format(crystal_usd) + "*" +
-        "\nPreço do Pancakeswap!!"          
-        ,parse_mode = 'Markdown'
-        )
-
 
 @bot.message_handler(commands=['goldhistory'])
 def send_welcome(message):
@@ -177,29 +110,7 @@ def send_welcome(message):
             "\nA variação nos últimos 30 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_30d'],2)) + "%" +
             "\nA variação nos últimos 60 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_60d'],2)) + "%" + 
             "\nA variação nos últimos 90 dias foi de " + str(round(bnx.data['9891']['quote']['USD']['percent_change_90d'],2)) + "%"                                    
-            )
-
-@bot.message_handler(commands=['market'])
-def send_welcome(message):
-
-        header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'}
-
-        try:
-            promo = requests.get("https://market.binaryx.pro/getSales?page=1&page_size=1&status=selling&name=&sort=price&direction=asc&career=&value_attr=&start_value=&end_value=&pay_addr=", headers=header).json()
-        except:
-            bot.reply_to(message, "O market está fechado agora") 
-        else: 
-            promo_bnx =  int(promo["data"]["result"]["items"][0]["price"]) / 1000000000000000000
-            bot.reply_to(message, "O menor preço de lv1 no market agora é *" + "{:.4f}".format(promo_bnx) + "* BNX"
-            ,parse_mode = 'Markdown')        
-
-@bot.message_handler(commands=['boladecristal'])
-def send_welcome(message):
-
-        gold = requests.get("https://api.pancakeswap.info/api/v2/tokens/0xb3a6381070b1a15169dea646166ec0699fdaea79").json()
-        gold_usd = round(float(gold["data"]["price"]),6) 
-        bot.reply_to(message, "Consultando os astros..... consultando os exús.... " +
-            "\nA cotação do Gold daqui 15 dias será = $" + "{:.6f}".format(round(gold_usd,6)*random.randrange(1,10)))    
+            )  
 
 @bot.message_handler(commands=['wom'])
 def send_welcome(message):
@@ -295,89 +206,6 @@ def send_welcome(message):
 
 
 
-#####################################################################################
-# Contest Section
-#
-#####################################################################################
-
-################ ADMIN COMMANDS ##################
-@bot.message_handler(is_admin=True, commands=['startcontest']) # Check if user is admin
-def admin_rep(message):
-    args = message.text.split()
-    if len(args) > 1 and args[1].isdigit():
-        duration = int(args[1])
-        bot.send_message(message.chat.id, contest.openContest(duration ,message))
-    else:
-        bot.send_message(message.chat.id, "Usage: /startcontest <minutes>")      
-
-@bot.message_handler(is_admin=True, commands=['endcontest']) # Check if user is admin
-def admin_rep(message):
-    bot.send_message(message.chat.id, contest.closeContest(message))
-
-@bot.message_handler(is_admin=True, commands=['listmeme']) # Check if user is admin
-def admin_rep(message):
-    bot.send_message(message.chat.id, contest.listMemes(message),  parse_mode = 'HTML', disable_web_page_preview=True)
-
-
-################ GENERAL COMMANDS ##################
-
-@bot.message_handler(commands=['vote'])
-def send_welcome(message):
-    bot.reply_to(message, contest.vote(message))
-
-
-
-#####################################################################################
-# AMA Section
-#
-#####################################################################################
-
-################ ADMIN COMMANDS ##################
-
-@bot.message_handler(is_admin=True, commands=['helpama']) # Check if user is admin
-def admin_rep(message):
-        bot.reply_to(message, "Bem vindo" +
-        "\n   /startama Start AMA Q&A session <comment> <hours>*(ADM)*" +
-        "\n   /question Send question to AMA Q&A" +
-        "\n   /delquestion Delete question sent to AMA Q&A" +
-        "\n   /admdelquestion [user] Delete question from user *(ADM)*" +      
-        "\n   /listquestions List all questions *(ADM)*" +
-        "\n   /endama End AMA Q&A session *(ADM)*"                         
-        ,parse_mode = 'Markdown')   
-
-@bot.message_handler(is_admin=True, commands=['startama']) # Check if user is admin
-def admin_rep(message):
-    args = message.text.split()
-    if len(args) > 1 :
-        bot.send_message(message.chat.id, ama.openAma(message))
-    else:
-        bot.send_message(message.chat.id, "Usage: /startama 'description' <hours>")      
-
-@bot.message_handler(is_admin=True, commands=['endama']) # Check if user is admin
-def admin_rep(message):
-    bot.send_message(message.chat.id, ama.closeAma(message))
-
-@bot.message_handler(is_admin=True, commands=['listquestions']) # Check if user is admin
-def admin_rep(message):
-    bot.send_message(message.chat.id, ama.listQuestions(message))   
-
-@bot.message_handler(is_admin=True, commands=['admdelquestion']) # Check if user is admin
-def admin_rep(message):
-    bot.send_message(message.chat.id, ama.admdelQuestion(message))  
-
-################ GENERAL COMMANDS ##################
-@bot.message_handler(commands=['question'])
-def send_welcome(message):
-    bot.reply_to(message, ama.question(message))
-
-@bot.message_handler(commands=['delquestion'])
-def send_welcome(message):
-    bot.reply_to(message, ama.delQuestion(message))
-'''
-@bot.message_handler(commands=['listquestions'])
-def send_welcome(message):
-    bot.send_message(message.chat.id, ama.listQuestions(message))
-'''
 #####################################################################################
 # Filter Section
 #
