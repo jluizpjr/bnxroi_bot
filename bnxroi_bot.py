@@ -150,7 +150,10 @@ def moon_phases(value):
 
 @bot.message_handler(commands=['womtable'])
 def send_welcome(message):
+    msg = bot.send_message(message.chat.id,"Preparando dados... " )
+    bot.last_message_sent = msg.chat.id, msg.message_id
     womtable.womtable()
+    bot.delete_message(*bot.last_message_sent)
     bot.send_photo(message.chat.id, open('table.png', 'rb'))
 
 #####################################################################################
