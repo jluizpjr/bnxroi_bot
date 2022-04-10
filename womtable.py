@@ -21,5 +21,6 @@ def womtable():
     plt.ylabel('Hora (Brasil)', fontsize = 12) # y-axis label with fontsize 15
     plt.show()
     plt.savefig('table.png')
+    del df, hm, sns, plt
     
     return
