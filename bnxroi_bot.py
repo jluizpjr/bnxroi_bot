@@ -26,7 +26,8 @@ bot.set_my_commands(
         telebot.types.BotCommand("gold", "cotação do GOLD"),         
         telebot.types.BotCommand("crystal", "cotação do Crystal"),    
         telebot.types.BotCommand("ajudasorteio", "submenu de sorteio"),
-        telebot.types.BotCommand("wom", "retorna o WOM das DGs")
+        telebot.types.BotCommand("wom", "retorna o WOM das DGs"),
+        telebot.types.BotCommand("womtable", "retorna a tabela de WOM das DGs")
     ],
 )
 
