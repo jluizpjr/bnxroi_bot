@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style 
 import numpy as np
 import seaborn as sns
+import gc
 
 
 def womtable():
@@ -22,5 +23,6 @@ def womtable():
     plt.show()
     plt.savefig('table.png')
     del df, hm
+    gc.collect()
     
     return

@@ -110,7 +110,7 @@ def draw(message):
                 return "This raffle needs at least 2 participants"
             winner = random.randrange(0,len(draw_dict["users"]))
             f.close()
-            return "The winner is " + draw_dict["users"][winner][0] + " UID=" + str(draw_dict["users"][winner][1])
+            return "The winner is " + draw_dict["users"][winner][0] + " UID=" + str(draw_dict["users"][winner][1]) , draw_dict["users"][winner][2]
     except Exception as e:
         print(f"Unexpected {e=}, {type(e)=}")
         return "There is no ongoing raffle" 
